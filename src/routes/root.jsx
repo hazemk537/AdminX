@@ -1,10 +1,13 @@
-import { Link, Outlet,  useLoaderData,Form,redirect,NavLink,useNavigation, useSubmit,
+import React from "react";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Link, Outlet } from 'react-router-dom';
+const { Header, Content, Sider } = Layout;
 
-} from "react-router-dom";
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import React from 'react';
-const categories=[
+const items1 = ["Summary", "Products", "Users"].map((key) => ({
+  key,
+  label: `${key}`
+}));
+let categories=[
   "smartphones",
   "laptops",
   "fragrances",
@@ -26,98 +29,94 @@ const categories=[
   "motorcycle",
   "lighting"
 ]
-const navList=['Products,Customers,Summary,-All Categories,-Per Category',categories] //todo nesting
 
-const { Header, Content, Footer, Sider } = Layout;
-const items1 = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
-const Root = () => {
+const items2 = [
+  {
+    key: 1,
+    label: <Link to="/summary">Summary</Link>,
+    children: [
+      { label: <Link to="/summary/products">All Products</Link> },
+      {
+        label: 'Per Category',
+        children: categories.map((item) => ({
+          label: <Link to={`/summary/category/${item}`}>{item}</Link>,
+        })),
+      },
+    ],
+  },
+  {
+    key: 2,
+    label: <Link to="/products">Products</Link>,
+  },
+  {
+    key: 3,
+    label: <Link to="/users">Users</Link>,
+  },
+];
+
+
+const App = () => {
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer }
   } = theme.useToken();
   return (
     <Layout>
       <Header
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center"
         }}
       >
         <div className="demo-logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={items1}
+        />
       </Header>
-      <Content
-        style={{
-          padding: '0 50px',
-        }}
-      >
-        <Breadcrumb
+      <Layout>
+        <Sider
+          width={200}
           style={{
-            margin: '16px 0',
+            background: colorBgContainer
           }}
         >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
+          <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["2"]}
+          items={items2}
+        />
+          
+        </Sider>
         <Layout
           style={{
-            padding: '24px 0',
-            background: colorBgContainer,
+            padding: "0 24px 24px"
           }}
         >
-          <Sider
+          <Breadcrumb
             style={{
-              background: colorBgContainer,
+              margin: "16px 0"
             }}
-            width={200}
           >
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{
-                height: '100%',
-              }}
-              items={items2}
-            />
-          </Sider>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
           <Content
             style={{
-              padding: '0 24px',
+              padding: 24,
+              margin: 0,
               minHeight: 280,
+              background: colorBgContainer
             }}
           >
-            Content
+            <Outlet/>
           </Content>
         </Layout>
-        <Outlet/>
-      </Content>
-      <Footer
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        Admin X
-      </Footer>
+      </Layout>
     </Layout>
   );
 };
-export default Root;
+export default App;

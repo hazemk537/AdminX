@@ -3,12 +3,21 @@ import { Button, Input, Space, Table } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
-let products 
+
+ let productsWithSold
+// i cannot export the data after updated
+//use local storage
 const ProductTable = () => {
+  const [products,setProducts]=useState()
   useEffect(() => {
-    fetch('https://dummyjson.com/products')
+    fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
-    .then(jsonData=>{products=jsonData})//usestate instead !
+    .then(jsonData => {
+       productsWithSold = jsonData.products.map(product => ({
+        ...product,
+        sold: Math.floor(Math.random() * 99991) + 10 // generates a random number between 10 and 100000
+      }));
+      setProducts(productsWithSold);localStorage.setItem('productsWithSold',JSON.stringify(productsWithSold))  })
     .catch((error) => {
         const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
           status: 400,
@@ -16,6 +25,7 @@ const ProductTable = () => {
         throw errorResponse;
       });
   }, []);
+
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -164,6 +174,14 @@ const ProductTable = () => {
       ...getColumnSearchProps('stock'),
     },
     {
+      title:'Sold',
+      dataIndex: 'sold',
+      key: 'sold',
+      width: '10%',
+      ...getColumnSearchProps('sold'),
+      
+    },
+    {
       title: 'Brand',
       dataIndex: 'brand',
       key: 'brand',
@@ -171,6 +189,12 @@ const ProductTable = () => {
       ...getColumnSearchProps('brand'),
     },
     {
+      title: 'Category',//statistic upon categories
+      dataIndex: 'category',
+      key: 'category',
+      width: '15%',
+      ...getColumnSearchProps('category'),
+    }, {
       title: 'Category',//statistic upon categories
       dataIndex: 'category',
       key: 'category',
@@ -187,4 +211,4 @@ const ProductTable = () => {
   ];
   return <Table columns={columns} dataSource={products} />;
 };
-export default ProductTable;
+export default ProductTable

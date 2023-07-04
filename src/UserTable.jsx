@@ -7,10 +7,12 @@ let users
 //access admin or ordinary and modify access 
 //download data to use it locally
 const UserTable = () => {
+  const [users,setUsers]=useState(0)
+
   useEffect(() => {
-    fetch('https://fakestoreapi.com/customers')
+    fetch('https://fakestoreapi.com/users')
       .then((response) => response.json())
-      .then((data) => {users=data;console.log(data)})
+      .then((data) => {setUsers(data)})
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
           status: 400,

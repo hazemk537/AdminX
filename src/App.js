@@ -4,7 +4,7 @@ import React from "react";
 import ErrorPage from "./routes/errorPage";
 import Root from "./routes/root";
 import Permissions from "./routes/users";
-import Summary from "./routes/Summary";
+import AllProducts from "./routes/AllProducts";
 import Products from "./routes/products";
 import Customers from "./routes/customers";
 import Users from "./routes/users";
@@ -22,12 +22,25 @@ const router = createBrowserRouter([
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <summary /> },
+          { index: true, element: <AllProducts /> },
           {
             path: "summary",
-            element: <Summary />,
+            element: <AllProducts />,
             // loader: contactLoader,
             // action: contactAction,
+            children:[
+
+              {index:true,path:"products",element:<AllProducts/>
+              // element:
+
+            
+            },{path:"category/:catid"
+          // element:
+            }
+
+
+
+            ]
           },
           {
             path: "products",
