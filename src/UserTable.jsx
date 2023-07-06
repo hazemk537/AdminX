@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 //download data to use it locally
 let usersTemp
 const UserTable = () => {
-  const [users,setUsers]=useState(0)
 
   useEffect(() => {
     fetch('https://dummyjson.com/users')
@@ -17,7 +16,6 @@ const UserTable = () => {
           ...item,
           tags:item.username ==='atuny0'?['Admin']:['User']
         }));
-        setUsers(usersTemp);
       })
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
@@ -26,7 +24,7 @@ const UserTable = () => {
         throw errorResponse;
       });
   }, []);
-  const cachedUsers=useMemo(() => usersTemp, [usersTemp]);
+  const cachedUsers=useMemo(() => usersTemp, []);
   
 
   const [searchText, setSearchText] = useState('');

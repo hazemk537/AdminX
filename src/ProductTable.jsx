@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 // i cannot export the data after updated
 //use local storage
 const ProductTable = () => {
-  const [products,setProducts]=useState()
   useEffect(() => {
     fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
@@ -23,7 +22,7 @@ const ProductTable = () => {
         ,measures: [product.stock]
         
       }));
-      setProducts(productsWithSold);localStorage.setItem('productsWithSold',JSON.stringify(productsWithSold))  })
+      ;localStorage.setItem('productsWithSold',JSON.stringify(productsWithSold))  })
     .catch((error) => {
         const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
           status: 400,
@@ -31,7 +30,7 @@ const ProductTable = () => {
         throw errorResponse;
       });
   }, []);
-  const cashedProductsWithSold = useMemo(() => productsWithSold, [productsWithSold]);
+  const cashedProductsWithSold = useMemo(() => productsWithSold, []);
 
 
   const [searchText, setSearchText] = useState('');
