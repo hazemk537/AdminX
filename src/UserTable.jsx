@@ -1,5 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Space, Table, Tag } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
@@ -10,9 +10,15 @@ const UserTable = () => {
   const [users,setUsers]=useState(0)
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/users')
+    fetch('https://dummyjson.com/users')
       .then((response) => response.json())
-      .then((data) => {usersTemp=data;setUsers(data)})
+      .then((data) => {
+         usersTemp = data.users.map((item) => ({
+          ...item,
+          tags:item.username ==='atuny0'?['Admin']:['User']
+        }));
+        setUsers(usersTemp);
+      })
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
           status: 400,
@@ -141,11 +147,17 @@ const UserTable = () => {
       width: '10%',
       ...getColumnSearchProps('id'),
     },{
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'First Name',
+      dataIndex: 'firstname',//`${name.firstname}`,
+      key: 'firstname',
       width: '30%',
-      ...getColumnSearchProps('name'),
+      ...getColumnSearchProps('firstname'),
+    },{
+      title: 'Last Name',
+      dataIndex: 'lastname',
+      key: 'lastname',
+      width: '30%',
+      ...getColumnSearchProps('lastname'),
     },
     {
       title: 'Username',
@@ -155,7 +167,7 @@ const UserTable = () => {
       ...getColumnSearchProps('username'),
     },
     {
-      title: 'Address',
+      title: 'Email',
       dataIndex: 'email',
       key: 'email',
       ...getColumnSearchProps('email'),
@@ -168,6 +180,25 @@ const UserTable = () => {
       key: 'password',
       width: '20%',
       ...getColumnSearchProps('password'),
+    },{
+      title: 'Tags',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {tags.map((tag) => {
+            let color = tag === 'Admin' ? 'geekblue' : 'green';
+            
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </>
+      ),
+      
+      
     },{
       title: 'Action',
       dataIndex: '',
