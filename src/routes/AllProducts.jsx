@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Bullet, Column } from "@ant-design/plots";
-import { Outlet } from "react-router-dom";
 
 const paletteSemanticRed = "#F4664A";
 const brandColor = "#5B8FF9";

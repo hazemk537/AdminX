@@ -1,10 +1,10 @@
 
 import { useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 export default function Root() {
   const navigate=useNavigate()
-  const [isLoggedIn,setiskogin]=useState(true)
+  const [isLoggedIn]=useState(true)
   //Todo opened using localstorgae
   const handleClick = () => {
     if (isLoggedIn) {
