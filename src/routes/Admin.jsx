@@ -2,7 +2,6 @@ import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, Outlet } from 'react-router-dom';
 const { Header, Content, Sider } = Layout;
-
 const items1 = ["Summary", "Products", "Users"].map((key) => ({
   key,
   label: `${key}`
@@ -30,6 +29,7 @@ let categories=[
   "lighting"
 ]
 
+
 const items2 = [
   {
     key: 1,
@@ -54,13 +54,12 @@ const items2 = [
   },
 ];
 
-
 const Admin = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
   return (
-    <Layout>
+    <Layout > 
       <Header
         style={{
           display: "flex",
