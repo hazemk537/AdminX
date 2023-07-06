@@ -26,7 +26,8 @@ function Summary() {
       setTopRated(data.topRated);
       setTopSold(data.topSold);
     }); //TODO revise hooks uses
-  }, [hack]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const Ratingconfig = {
     data: topRated,
