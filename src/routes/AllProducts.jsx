@@ -26,7 +26,7 @@ function Summary() {
       setTopRated(data.topRated);
       setTopSold(data.topSold);
     }); //TODO revise hooks uses
-  }, []);
+  }, [hack]);
 
   const Ratingconfig = {
     data: topRated,
