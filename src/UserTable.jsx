@@ -1,18 +1,18 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
-let users 
 //access admin or ordinary and modify access 
 //download data to use it locally
+let usersTemp
 const UserTable = () => {
   const [users,setUsers]=useState(0)
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/users')
       .then((response) => response.json())
-      .then((data) => {setUsers(data)})
+      .then((data) => {usersTemp=data;setUsers(data)})
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
           status: 400,
@@ -20,6 +20,9 @@ const UserTable = () => {
         throw errorResponse;
       });
   }, []);
+  const cachedUsers=useMemo(() => usersTemp, [usersTemp]);
+  
+
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -173,6 +176,6 @@ const UserTable = () => {
     },
 
   ];
-  return <Table columns={columns} dataSource={users} />;
+  return <Table columns={columns} dataSource={cachedUsers} />;
 };
 export default UserTable;

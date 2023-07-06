@@ -1,7 +1,7 @@
 import React from "react";
 import ProductTable from "../ProductTable.jsx";
 
-function products() {
+function Products() {
   return (
     <>
       <ProductTable />
@@ -9,4 +9,4 @@ function products() {
   );
 }
 
-export default products;
+export default Products;

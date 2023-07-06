@@ -1,6 +1,6 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +16,12 @@ const ProductTable = () => {
        productsWithSold = jsonData.products.map(product => ({
         ...product,
         sold: Math.floor(Math.random() * 99991) + 10 // generates a random number between 10 and 100000
+        ,target:40
+        ,threshold:10,
+        max:100
+        ,ranges: [product.threshold, product.max]
+        ,measures: [product.stock]
+        
       }));
       setProducts(productsWithSold);localStorage.setItem('productsWithSold',JSON.stringify(productsWithSold))  })
     .catch((error) => {
@@ -25,6 +31,8 @@ const ProductTable = () => {
         throw errorResponse;
       });
   }, []);
+  const cashedProductsWithSold = useMemo(() => productsWithSold, [productsWithSold]);
+
 
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -64,7 +72,7 @@ const ProductTable = () => {
             icon={<SearchOutlined />}
             size="small"
             style={{
-              width: 90,
+              width: 90,//Todo custom your chart depend on your given table
             }}
           >
             Search
@@ -187,7 +195,26 @@ const ProductTable = () => {
       key: 'brand',
       width: '15%',
       ...getColumnSearchProps('brand'),
+    },{
+      title: 'Threshold',
+      dataIndex: 'threshold',
+      key: 'threshold',
+      width: '15%',
+      ...getColumnSearchProps('threshold'),
+    },{
+      title: 'Max',
+      dataIndex: 'max',
+      key: 'max',
+      width: '15%',
+      ...getColumnSearchProps('max'),
+    },{
+      title: 'Target',
+      dataIndex: 'target',
+      key: 'target',
+      width: '15%',
+      ...getColumnSearchProps('target'),
     },
+
     {
       title: 'Category',//statistic upon categories
       dataIndex: 'category',
@@ -209,6 +236,6 @@ const ProductTable = () => {
     },
 
   ];
-  return <Table columns={columns} dataSource={products} />;
+  return <Table columns={columns} dataSource={cashedProductsWithSold} />;
 };
 export default ProductTable

@@ -8,7 +8,7 @@ import AllProducts from "./routes/AllProducts";
 import Products from "./routes/products";
 import Customers from "./routes/customers";
 import Users from "./routes/users";
-
+import Category from "./Category";
 
 
 const router = createBrowserRouter([
@@ -16,55 +16,29 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    // loader: rootLoader,
-    // action: rootAction,
     children: [
+      { index: true, element: <Products /> },
+
       {
-        errorElement: <ErrorPage />,
-        children: [
-          { index: true, element: <AllProducts /> },
-          {
-            path: "summary",
-            element: <AllProducts />,
-            // loader: contactLoader,
-            // action: contactAction,
-            children:[
-
-              {index:true,path:"products",element:<AllProducts/>
-              // element:
-
-            
-            },{path:"category/:catid"
-          // element:
-            }
-
-
-
-            ]
-          },
-          {
-            path: "products",
-            element: <Products />,
-            // loader: contactLoader,
-            // action: editAction,
-          },
-          {
-            path: "customers",
-            element: <Customers />,
-            // action: destroyAction,
-            // errorElement: <div>Oops! There was an error.</div>,
-          },{
-            path: "users",
-            element: <Users />,
-            // action: destroyAction,
-            // errorElement: <div>Oops! There was an error.</div>,
-          },
-        ],
+        path: "summary/products",
+        element: <AllProducts />
       },
-    ],
-  },
+      {
+        path: "summary/category/:catid",
+        element: <Category />
+      },
+      {
+        path: "products",
+        element: <Products />
+      },
+     
+      {
+        path: "users",
+        element: <Users />
+      }
+    ]
+  }
 ]);
-
 
 function App() {//todo landing page open adminstration to fire authentication
   ReactDOM.createRoot(document.getElementById("root")).render(
