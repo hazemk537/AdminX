@@ -227,12 +227,6 @@ const ProductTable = () => {
       key: 'category',
       width: '15%',
       ...getColumnSearchProps('category'),
-    }, {
-      title: 'Category',//statistic upon categories
-      dataIndex: 'category',
-      key: 'category',
-      width: '15%',
-      ...getColumnSearchProps('category'),
     },
     {
       title: 'Action',
