@@ -29,10 +29,11 @@ export default function Root() {
     font-family: "Orbitron", sans-serif;
     font-family: sans-serif;
     color: #d9d9d9;
+
   }
   
 
-  .landingPageheader {
+  header {
     margin-left: 100px;
     margin-right: 100px;
 
@@ -41,7 +42,7 @@ export default function Root() {
     justify-content: space-around; 
   }
   
-  .landingPageheader span {
+   span {
     /* margin-right: 1.5rem; */
     cursor: pointer;
     color: #6b238e;
@@ -50,18 +51,18 @@ export default function Root() {
     display: inline-block;
   }
   
-  .landingPageheader span:hover {
+   span:hover {
     color: #ff2a2a;
   }
   
-  .landingH1 {
+   h1 {
     font-size: 3rem;
     text-align: center;
     margin-top: 10rem;
     color: #6b238e;
   }
   
-  .landingPagebutton {
+   button {
     display: block;
     margin: 0 auto;
     background-color: blueviolet;
@@ -77,7 +78,7 @@ export default function Root() {
   
 
  
-  .landingPageheader span:hover::before {
+   span:hover::before {
     content: attr(data-text);
     position: absolute;
     top: -2rem;
@@ -96,8 +97,8 @@ export default function Root() {
   `
   return (
     <Wrapper>
-    <div >
-      <header >
+    <div className="" >
+      <header className="header">
         <span data-text="About">
           <InfoCircleOutlined />{" "}
         </span>
@@ -117,8 +118,9 @@ export default function Root() {
           <MailOutlined />{" "}
         </span>
       </header>
-      <h1 >Welcome to AdminX Website!</h1>
-      <button  onClick={handleClick}>Go to Admin Page</button>
+
+      <h1 className="H1" >Welcome to AdminX Website!</h1>
+      <button className="button" onClick={handleClick}>Go to Admin Page</button>
 
     </div>
     </Wrapper>

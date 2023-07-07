@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, Outlet } from 'react-router-dom';
+import { styled } from "styled-components";
 const { Header, Content, Sider } = Layout;
 const items1 = ["Summary", "Products", "Users"].map((key) => ({
   key,
@@ -29,50 +30,58 @@ let categories=[
   "lighting"
 ]
 
+const baseKey=categories.length
 
 const items2 = [
   {
-    key: 1,
+    key: baseKey+1,
     label: <Link to="/admin/summary">Summary</Link>,
     children: [
       { label: <Link to="/admin/summary/products">All Products</Link> },
       {
         label: 'Per Category',
-        children: categories.map((item) => ({
+        children: categories.map((item,index) => ({
+          key:index+1,
           label: <Link to={`/admin/summary/category/${item}`}>{item}</Link>,
         })),
       },
     ],
   },
   {
-    key: 2,
+    key: baseKey+2,
     label: <Link to="/admin/products">Products</Link>,
   },
   {
-    key: 3,
+    key: baseKey+3,
     label: <Link to="/admin/users">Users</Link>,
   },
 ];
 
+
+
+
+const Logo=styled.img`
+height:95%;
+width:5%;
+border-radius:50%;
+
+
+`
 const Admin = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
   return (
     <Layout > 
+
       <Header
         style={{
           display: "flex",
           alignItems: "center"
         }}
       >
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items1}
-        />
+        <Logo src="adminx.jpeg" alt="" title="Welcome to AdminX ! "/>   
+ 
       </Header>
       <Layout>
         <Sider
@@ -84,7 +93,6 @@ const Admin = () => {
           <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["2"]}
           items={items2}
         />
           
@@ -94,15 +102,7 @@ const Admin = () => {
             padding: "0 24px 24px"
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: "16px 0"
-            }}
-          >
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
+          
           <Content
             style={{
               padding: 24,
@@ -117,5 +117,6 @@ const Admin = () => {
       </Layout>
     </Layout>
   );
+
 };
 export default Admin;
