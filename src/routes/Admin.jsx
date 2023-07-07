@@ -1,12 +1,7 @@
 import React from "react";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import {  Layout, Menu, theme } from "antd";
 import { Link, Outlet } from 'react-router-dom';
-import { styled } from "styled-components";
 const { Header, Content, Sider } = Layout;
-const items1 = ["Summary", "Products", "Users"].map((key) => ({
-  key,
-  label: `${key}`
-}));
 let categories=[
   "smartphones",
   "laptops",
@@ -37,22 +32,22 @@ const items2 = [
     key: baseKey+1,
     label: <Link to="/admin/summary">Summary</Link>,
     children: [
-      { label: <Link to="/admin/summary/products">All Products</Link> },
+      { key: baseKey+2,label: <Link to="/admin/summary/products">All Products</Link> },
       {
         label: 'Per Category',
         children: categories.map((item,index) => ({
-          key:index+1,
+          key:index+3,
           label: <Link to={`/admin/summary/category/${item}`}>{item}</Link>,
         })),
       },
     ],
   },
   {
-    key: baseKey+2,
+    key: baseKey+4,
     label: <Link to="/admin/products">Products</Link>,
   },
   {
-    key: baseKey+3,
+    key: baseKey+5,
     label: <Link to="/admin/users">Users</Link>,
   },
 ];
@@ -60,13 +55,7 @@ const items2 = [
 
 
 
-const Logo=styled.img`
-height:95%;
-width:5%;
-border-radius:50%;
 
-
-`
 const Admin = () => {
   const {
     token: { colorBgContainer }
@@ -80,7 +69,6 @@ const Admin = () => {
           alignItems: "center"
         }}
       >
-        <Logo src="adminx.jpeg" alt="" title="Welcome to AdminX ! "/>   
  
       </Header>
       <Layout>
@@ -91,6 +79,8 @@ const Admin = () => {
           }}
         >
           <Menu
+          defaultOpenKeys={[`${baseKey+1}`]}
+          defaultSelectedKeys={[`${baseKey+2}`]}
           theme="dark"
           mode="inline"
           items={items2}

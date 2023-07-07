@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 
- let productsWithSold
+ let productsWithSold 
 // i cannot export the data after updated
 //use local storage
 const ProductTable = () => {
