@@ -4,25 +4,32 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 
- let productsWithSold 
-// i cannot export the data after updated
-//use local storage
+let toMemo
+function handleData(product){
+return (
+  {
+    ...product,
+    sold: Math.floor(Math.random() * 99991) + 10 // generates a random number between 10 and 100000
+    ,target:40
+    ,threshold:10,
+    max:100
+    ,ranges: [product.threshold, product.max]
+    ,measures: [product.stock]
+    
+  }
+
+
+)
+}
 const ProductTable = () => {
+  const [productsWithSold,setproductsWithSold]=useState()
   useEffect(() => {
     fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
-    .then(jsonData => {
-       productsWithSold = jsonData.products.map(product => ({
-        ...product,
-        sold: Math.floor(Math.random() * 99991) + 10 // generates a random number between 10 and 100000
-        ,target:40
-        ,threshold:10,
-        max:100
-        ,ranges: [product.threshold, product.max]
-        ,measures: [product.stock]
-        
-      }));
-      ;localStorage.setItem('productsWithSold',JSON.stringify(productsWithSold))  })
+    .then(jsonData => {  
+      toMemo=jsonData.products.map(handleData)
+      setproductsWithSold(toMemo)
+      localStorage.setItem('productsWithSold',JSON.stringify(toMemo))  })
     .catch((error) => {
         const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
           status: 400,
@@ -30,8 +37,11 @@ const ProductTable = () => {
         throw errorResponse;
       });
   }, []);
-  const cashedProductsWithSold = useMemo(() => productsWithSold, []);
 
+ // todo try to make the array not changes donot work
+  // const memoizationHack=useMemo((()=>returnFakeState(productsWithSold),[productsWithSold]))
+  // 
+  // TODO const cached=useMemo(()=>toMemo,[]) not work 
 
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -140,9 +150,6 @@ const ProductTable = () => {
       ),
   });
 
- 
- 
-  
   const columns = [
     {
       title: 'ID',
@@ -235,6 +242,11 @@ const ProductTable = () => {
     },
 
   ];
-  return <Table columns={columns} dataSource={cashedProductsWithSold} />;
+  //products of solds is array so should memoized to enabe compare by value
+  //Todo i donot know  why memoization not work
+  //  const memoizedTable=useMemo(()=><Table columns={columns} dataSource={toMemo } />,[toMemo])
+  // return memoizedTable;
+
+  return <Table columns={columns} dataSource={toMemo }/>
 };
 export default ProductTable

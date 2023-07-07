@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 //download data to use it locally
 let usersTemp
 const UserTable = () => {
+      const [flag,setFlag]=useState(0)
 
+//TODO i canot rerender component on flag change btn click (if i remove memoization)
   useEffect(() => {
     fetch('https://dummyjson.com/users')
       .then((response) => response.json())
@@ -15,7 +17,7 @@ const UserTable = () => {
          usersTemp = data.users.map((item) => ({
           ...item,
           tags:item.username ==='atuny0'?['Admin']:['User']
-        }));
+        }));setFlag(!flag)
       })
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
@@ -24,7 +26,7 @@ const UserTable = () => {
         throw errorResponse;
       });
   }, []);
-  const cachedUsers=useMemo(() => usersTemp, []);
+  // const cachedUsers=useMemo(() => usersTemp, []); works 
   
 
   const [searchText, setSearchText] = useState('');
@@ -146,13 +148,13 @@ const UserTable = () => {
       ...getColumnSearchProps('id'),
     },{
       title: 'First Name',
-      dataIndex: 'firstname',//`${name.firstname}`,
+      dataIndex: 'firstName',//`${name.firstname}`,
       key: 'firstname',
       width: '30%',
       ...getColumnSearchProps('firstname'),
     },{
       title: 'Last Name',
-      dataIndex: 'lastname',
+      dataIndex: 'lastName',
       key: 'lastname',
       width: '30%',
       ...getColumnSearchProps('lastname'),
@@ -205,6 +207,10 @@ const UserTable = () => {
     },
 
   ];
-  return <Table columns={columns} dataSource={cachedUsers} />;
+  return<> 
+  {/* <Button onClick={()=>{setFlag(!flag)}}>Reload Data</Button> */}
+  
+  <Table columns={columns} dataSource={usersTemp} />//
+  </>
 };
 export default UserTable;

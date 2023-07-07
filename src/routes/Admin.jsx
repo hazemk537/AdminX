@@ -80,7 +80,7 @@ const Admin = () => {
         >
           <Menu
           defaultOpenKeys={[`${baseKey+1}`]}
-          defaultSelectedKeys={[`${baseKey+2}`]}
+          defaultSelectedKeys={[`${baseKey+4}`]}
           theme="dark"
           mode="inline"
           items={items2}

@@ -23,10 +23,11 @@ const handleUserNameChange =(event)=>{
     if (rememberPassword) {
       localStorage.setItem('password', password);
     }
-     if (username==='atuny0 ' && password==='9uQFF1Lh	')
+     if (username==='atuny0' && password==='9uQFF1Lh'){
      navigate('/admin')
-     else 
-     navigate('/signup')
+     localStorage.setItem("isLoggedIn",true)
+     }
+     //TODO error in data
 
 
 

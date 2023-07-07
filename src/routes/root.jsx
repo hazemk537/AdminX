@@ -11,13 +11,15 @@ import {
 import { styled } from "styled-components";
 export default function Root() {
   const navigate = useNavigate();
-  const [isLoggedIn] = useState(true);
   //Todo opened using localstorgae
+
+  const isLoggedIn=localStorage.getItem("isLoggedIn")
+
   const handleClick = () => {
     if (isLoggedIn) {
-      navigate("admin");
+      navigate("/admin");
     } else {
-      navigate("signup");
+      navigate("/login");
     }
   };
 
