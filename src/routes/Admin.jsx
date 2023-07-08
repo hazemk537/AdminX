@@ -1,6 +1,6 @@
 import React from "react";
 import {  Layout, Menu, theme } from "antd";
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 const { Header, Content, Sider } = Layout;
 let categories=[
   "smartphones",
@@ -57,11 +57,21 @@ const items2 = [
 
 
 const Admin = () => {
+  
+  const navigate=useNavigate()
+  const logoutHandle =  ()=>{
+    localStorage.setItem("isLoggedIn",0)
+    navigate("/")
+  
+  
+  }
   const {
     token: { colorBgContainer }
   } = theme.useToken();
   return (
+    
     <Layout > 
+
 
       <Header
         style={{
@@ -69,6 +79,14 @@ const Admin = () => {
           alignItems: "center"
         }}
       >
+        <button  style={{
+          alignSelf:"center"
+          ,borderRadius:"20%",
+          color:"white",
+          backgroundColor:"inherit",
+          cursor: "pointer",
+          
+          }}onClick={logoutHandle} >Log out </button>
  
       </Header>
       <Layout>

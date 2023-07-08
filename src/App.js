@@ -8,19 +8,21 @@ import Products from "./routes/products";
 import Users from "./routes/users";
 import Category from "./Category";
 import Login from "./routes/Login";
-import Signup from "./routes/Signup";
 import Admin from "./routes/Admin";
+import AuthElement from "./AuthElement";
+import Protected from "./Protected";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />
   }
 ,  { path: "login", element: <Login /> },
+
   {
     path: "admin",
-    element: <Admin />,
+    element: <Protected> <Admin /> </Protected>,
     children: [
       { index: true, element: <Products /> },
 
@@ -42,16 +44,13 @@ const router = createBrowserRouter([
         element: <Users />,
       },
     ],
-  },
+
+}
+  
 ]);
 
-function App() {
-  //todo landing page open adminstration to fire authentication
-  ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  );
-}
 
-export default App;
+  //todo landing page open adminstration to fire authentication
+
+
+
