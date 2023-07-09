@@ -1,28 +1,40 @@
 import React from "react";
-import {  Layout, Menu, theme } from "antd";
+import {  Button, Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+
 const { Header, Content, Sider } = Layout;
+
+
+
+
+const Admin = () => {
+  
+  const navigate=useNavigate()
+  const {t}=useTranslation()
+
+
 let categories=[
-  "smartphones",
-  "laptops",
-  "fragrances",
-  "skincare",
-  "groceries",
-  "home-decoration",
-  "furniture",
-  "tops",
-  "womens-dresses",
-  "womens-shoes",
-  "mens-shirts",
-  "mens-shoes",
-  "mens-watches",
-  "womens-watches",
-  "womens-bags",
-  "womens-jewellery",
-  "sunglasses",
-  "automotive",
-  "motorcycle",
-  "lighting"
+  t("smartphones"),t(
+  "laptops"),t(
+  "fragrances"),t(
+  "skincare"),t(
+  "groceries"),t(
+  "homeDecoration"),t(
+  "furniture"),t(
+  "tops"),t(
+  "womensDresses"),t(
+  "womensShoes"),t(
+  "mensShirts"),t(
+  "mensShoes"),t(
+  "mensWatches"),t(
+  "womensWatches"),t(
+  "womensBags"),t(
+  "womensJewellery"),t(
+  "sunglasses"),t(
+  "automotive"),t(
+  "motorcycle"),t(
+  "lighting")
 ]
 
 const baseKey=categories.length
@@ -30,11 +42,11 @@ const baseKey=categories.length
 const items2 = [
   {
     key: baseKey+1,
-    label: <Link to="/admin/summary">Summary</Link>,
+    label: <Link to="/admin/summary">{t("summary")}</Link>,
     children: [
-      { key: baseKey+2,label: <Link to="/admin/summary/products">All Products</Link> },
+      { key: baseKey+2,label: <Link to="/admin/summary/products">{t("allProducts")}</Link> },
       {
-        label: 'Per Category',
+        label: t("perCategory"),
         children: categories.map((item,index) => ({
           key:index+3,
           label: <Link to={`/admin/summary/category/${item}`}>{item}</Link>,
@@ -44,21 +56,15 @@ const items2 = [
   },
   {
     key: baseKey+4,
-    label: <Link to="/admin/products">Products</Link>,
+    label: <Link to="/admin/products">{t("products")}</Link>,
   },
   {
     key: baseKey+5,
-    label: <Link to="/admin/users">Users</Link>,
+    label: <Link to="/admin/users">{t("users")}</Link>,
   },
 ];
 
 
-
-
-
-const Admin = () => {
-  
-  const navigate=useNavigate()
   const logoutHandle =  ()=>{
     localStorage.setItem("isLoggedIn",0)
     navigate("/")
@@ -71,22 +77,17 @@ const Admin = () => {
   return (
     
     <Layout > 
-
-
       <Header
         style={{
           display: "flex",
           alignItems: "center"
         }}
       >
-        <button  style={{
-          alignSelf:"center"
-          ,borderRadius:"20%",
+        <Button  style={{
           color:"white",
           backgroundColor:"inherit",
-          cursor: "pointer",
           
-          }}onClick={logoutHandle} >Log out </button>
+          }} onClick={logoutHandle} >{t("logout")} </Button>
  
       </Header>
       <Layout>

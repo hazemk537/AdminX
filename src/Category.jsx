@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Bullet, Column } from "@ant-design/plots";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Tag } from "antd";  
+import arTranslations from './locales/ar.json'
+
 const paletteSemanticRed = "#F4664A";
 const brandColor = "#5B8FF9";
 //solve asynchronous problems!  to inssure toprated is not null and having needed data
 
-
+  function findKeyByValue(obj, value) {
+    return Object.keys(obj).find((key) => obj[key] === value);
+  }
 function Category() {
+  const {t}=useTranslation()
+
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
 
-  const { catid } = useParams();
+  let { catid } = useParams();
+
+    //ifthe lang is ar so --> change the language to english before using use params
+
+  const translatedString = catid
+  const translationKey = findKeyByValue(arTranslations, translatedString);
 
   async function hack() {
     const data = await JSON.parse(localStorage.getItem("productsWithSold"));
     if (data) {
-            let filtered = data.filter((item) => item.category === `${catid}` );
+            let filtered = data.filter((item) => item.category === `${translationKey}` );
             let topRated = filtered.sort((a, b) => b.rating - a.rating).slice(0, 10);
             let topSold = filtered.sort((a, b) => b.sold - a.sold).slice(0, 10);
 
@@ -118,15 +131,15 @@ function Category() {
   return (
     <div className="statistics">
       <div className="CategoryStats">
-        <h1>Highest Rating Products in <span className="categoryName"> {catid} </span></h1>
+        <h1>{t("highestRatedStat")}{t("inCategory")} <Tag bordered={false} color ="blue" > {catid} </Tag></h1>
         <Column {...Ratingconfig} />
         <div>
-        <h1>Highest Sold Products in <span className="categoryName"> {catid} </span></h1>
+          <h1>{t("highestSoldStat")}{t("inCategory")} <Tag bordered={false} color ="blue" > {catid} </Tag></h1>
         <Column {...SoldConfig} />
         </div>
 
         <div>
-        <h1>Lowest Stock Sorted by Sold units</h1>
+        <h1>{t("lowestStockStat")}{t("inCategory")}<Tag bordered={false} color ="blue" > {catid}</Tag></h1>
       <Bullet {...Stockconfig} />;
       </div>
 
@@ -134,7 +147,6 @@ function Category() {
 
 
       </div>
-      <div className=""></div>
     </div>
   );
 }

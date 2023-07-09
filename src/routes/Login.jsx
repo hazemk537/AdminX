@@ -1,9 +1,11 @@
 import { Alert } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 export default function Login() {
+  const {t}=useTranslation()
   const [password, setPassword] = useState("");
   const [rememberPassword, setRememberPassword] = useState(false);
   const [username, setUserName] = useState("");
@@ -85,16 +87,17 @@ export default function Login() {
     }
   `;
   return (
+
     <Style>
       <Alert message="UserName: atuny0 " type="success" />
       <Alert message="Password: 9uQFF1Lh  " type="success" />
       <form onSubmit={handleSubmit}>
         <label>
-          UserName:
+        {t("userName")}
           <input type="text" value={username} onChange={handleUserNameChange} />
         </label>
         <label>
-          Password:
+          {t("password")}
           <input
             type="password"
             value={password}
@@ -102,14 +105,14 @@ export default function Login() {
           />
         </label>
         <label>
-          Remember password:
+          {t("rememberPassword")}
           <input
             type="checkbox"
             checked={rememberPassword}
             onChange={handleCheckboxChange}
           />
         </label>
-        <button type="submit">Log in</button>
+        <button type="submit">{t("login")}</button>
       </form>
     </Style>
   );

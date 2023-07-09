@@ -9,8 +9,11 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { styled } from "styled-components";
+import { useTranslation } from "react-i18next";
 
 export default function Root() {
+  const {t}=useTranslation()
+
   const navigate = useNavigate();
   //Todo opened using localstorgae
 
@@ -93,29 +96,29 @@ export default function Root() {
     <Wrapper>
       <div className="">
         <header className="header">
-          <span data-text="About">
+        <span data-text={t("about")}>
             <InfoCircleOutlined />{" "}
           </span>
-          <span data-text="Features">
+          <span data-text={t("features")}>
             <StarOutlined />{" "}
           </span>
-          <span data-text="Download">
+          <span data-text={t("download")}>
             <DownloadOutlined />{" "}
           </span>
-          <span data-text="Facebook">
+          <span data-text={t("facebook")}>
             <FacebookOutlined />{" "}
           </span>
-          <span data-text="Twitter">
+          <span data-text={t("twitter")}>
             <TwitterOutlined />{" "}
           </span>
-          <span data-text="Send Email">
+          <span data-text={t("email")}>
             <MailOutlined />{" "}
           </span>
         </header>
 
-        <h1 className="H1">Welcome to AdminX Website!</h1>
+        <h1 className="H1">{t("greeting")}</h1>
         <button className="button" onClick={handleClick}>
-          Go to Admin Page
+          {t("gotoButton")}
         </button>
       </div>
     </Wrapper>

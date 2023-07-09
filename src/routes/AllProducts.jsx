@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Bullet, Column } from "@ant-design/plots";
+import { useTranslation } from "react-i18next";
 
 const paletteSemanticRed = "#F4664A";
 const brandColor = "#5B8FF9";
@@ -18,6 +19,8 @@ async function hack() {
 }
 
 function Summary() {
+  const {t}=useTranslation()
+
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
 
@@ -116,18 +119,17 @@ function Summary() {
   return (
     <div className="statistics">
       <div className="RatingPie">
-        <h1>Highest Rating Products</h1>
+        <h1>{t("highestRatedStat")}</h1>
         <Column {...Ratingconfig} />
-        <h1>Highest Sold Products</h1>
+        <h1>{t("highestSoldStat")}</h1>
 
         <Column {...SoldConfig} />
       </div>
       <div>
-        <h1>Lowest Stock Sorted by Sold units</h1>
+        <h1>{t("lowestStockStat")}</h1>
       <Bullet {...Stockconfig} />;
       </div>
       
-      <div className=""></div>
     </div>
   );
 }

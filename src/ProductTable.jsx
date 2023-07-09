@@ -3,7 +3,8 @@ import { Button, Input, Space, Table } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
-
+import arEG from 'antd/locale/ar_EG';
+import { useTranslation } from 'react-i18next';
 let toMemo
 function handleData(product){
 return (
@@ -22,14 +23,16 @@ return (
 )
 }
 const ProductTable = () => {
+  const {t}=useTranslation()
   const [productsWithSold,setproductsWithSold]=useState()
   useEffect(() => {
     fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
     .then(jsonData => {  
       toMemo=jsonData.products.map(handleData)
-      setproductsWithSold(toMemo)
       localStorage.setItem('productsWithSold',JSON.stringify(toMemo))  })
+
+      setproductsWithSold(toMemo)
     .catch((error) => {
         const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
           status: 400,
@@ -152,14 +155,14 @@ const ProductTable = () => {
 
   const columns = [
     {
-      title: 'ID',
+      title:  t('id'),
       dataIndex: 'id',
       key: 'id',
       width: '10%',
       ...getColumnSearchProps('id'),
     },
     {
-      title: 'Title',
+      title: t('title'),
       dataIndex: 'title',
       key: 'title',
       width: '20%',
@@ -167,28 +170,28 @@ const ProductTable = () => {
     },
    
     {
-      title: 'Price',
+      title: t('price'),
       dataIndex: 'price',
       key: 'price',
       width: '10%',
       ...getColumnSearchProps('price'),
     },
     {
-      title: 'Rating',/// statistics
+      title: t('rating'),/// statistics
       dataIndex: 'rating',
       key: 'rating',
       width: '10%',
       ...getColumnSearchProps('rating'),
     },
     {
-      title: 'Stock',//stock low levels
+      title: t('stock'),//stock low levels
       dataIndex: 'stock',
       key: 'stock',
       width: '10%',
       ...getColumnSearchProps('stock'),
     },
     {
-      title:'Sold',
+      title:t('sold'),
       dataIndex: 'sold',
       key: 'sold',
       width: '10%',
@@ -196,25 +199,25 @@ const ProductTable = () => {
       
     },
     {
-      title: 'Brand',
+      title: t('brand'),
       dataIndex: 'brand',
       key: 'brand',
       width: '15%',
       ...getColumnSearchProps('brand'),
     },{
-      title: 'Threshold',
+      title: t('threshold'),
       dataIndex: 'threshold',
       key: 'threshold',
       width: '15%',
       ...getColumnSearchProps('threshold'),
     },{
-      title: 'Max',
+      title: t('max'),
       dataIndex: 'max',
       key: 'max',
       width: '15%',
       ...getColumnSearchProps('max'),
     },{
-      title: 'Target',
+      title: t('target'),
       dataIndex: 'target',
       key: 'target',
       width: '15%',
@@ -222,17 +225,17 @@ const ProductTable = () => {
     },
 
     {
-      title: 'Category',//statistic upon categories
+      title: t('category'),//statistic upon categories
       dataIndex: 'category',
       key: 'category',
       width: '15%',
       ...getColumnSearchProps('category'),
     },
     {
-      title: 'Action',
+      title: t('action'),
       dataIndex: '',
       key: 'x',
-      render: () => <Link>Delete</Link>,// TODO Add and delete api using forms 
+      render: () => <Link>{t("delete")}</Link>,// TODO Add and delete api using forms 
     },
 
   ];
@@ -241,6 +244,6 @@ const ProductTable = () => {
   //  const memoizedTable=useMemo(()=><Table columns={columns} dataSource={toMemo } />,[toMemo])
   // return memoizedTable;
 
-  return <Table columns={columns} dataSource={toMemo }/>
+  return <Table columns={columns} dataSource={toMemo }  />
 };
 export default ProductTable
