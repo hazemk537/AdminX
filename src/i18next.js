@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n.use(LanguageDetector).init({
   fallbackLng: 'en',
-  lng:'en',
+  lng:'ar',
  resources: {
     en: {
       translation: require('./locales/en.json')

@@ -36,14 +36,14 @@
   "homeDecoration": "Home Decoration",
   "furniture": "Furniture",
   "tops": "Tops",
-  "womensDresses": "Women's Dresses",
-  "womensShoes": "Women's Shoes",
-  "mensShirts": "Men's Shirts",
-  "mensShoes": "Men's Shoes",
-  "mensWatches": "Men's Watches",
-  "womensWatches": "Women's Watches",
-  "womensBags": "Women's Bags",
-  "womensJewellery": "Women's Jewellery",
+  "womensDresses": "Women Dresses",
+  "womensShoes": "Women Shoes",
+  "mensShirts": "Men Shirts",
+  "mensShoes": "Men Shoes",
+  "mensWatches": "Men Watches",
+  "womensWatches": "Women Watches",
+  "womensBags": "Women Bags",
+  "womensJewellery": "Women Jewellery",
   "sunglasses": "Sunglasses",
   "automotive": "Automotive",
   "motorcycle": "Motorcycle",
@@ -54,7 +54,14 @@
   "highestRatedStat":"Highest Rated Products",
   "highestSoldStat":"Highest Sold Products",
   "lowestStockStat":"Lowest Stock Products",
-  "inCategory":" In "
+  "inCategory":" In ",
+  "measures":"Measures",
+  "ranges":"Ranges",
+  "images":"Images",
+  "thumbnail":"Thumbnail",
+  "discountPercentage":"DiscountPercentage",
+  "description":"Description"
+
 
 
 }

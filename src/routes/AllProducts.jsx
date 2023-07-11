@@ -7,22 +7,25 @@ const brandColor = "#5B8FF9";
 
 //solve asynchronous problems!  to inssure toprated is not null and having needed data
 
-async function hack() {
-  const data = await JSON.parse(localStorage.getItem("productsWithSold"));
-  if (data) {
-    const topRated = data.sort((a, b) => b.rating - a.rating).slice(0, 10);
-    let topSold = data.sort((a, b) => b.sold - a.sold).slice(0, 10);
 
-    return { topRated, topSold };
-  }
-  return [];
-}
 
 function Summary() {
-  const {t}=useTranslation()
+  const {t,i18n}=useTranslation()
 
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
+  async function hack() {
+    const data = await JSON.parse(localStorage.getItem("productsWithSold"));
+    if (data) { 
+      const rating=t("rating")
+      const sold=t("sold")
+      const topRated = data.sort((a, b) => b.rating - a.rating).slice(0, 10);
+      let topSold = data.sort((a, b) => b.sold - a.sold).slice(0, 10);
+  
+      return { topRated, topSold };
+    }
+    return [];
+  }
 
   useEffect(() => {
     hack().then((data) => {
@@ -34,8 +37,8 @@ function Summary() {
 
   const Ratingconfig = {
     data: topRated,
-    xField: "title",
-    yField: "rating",
+    xField: t("title"),
+    yField: t("rating"),
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -62,8 +65,8 @@ function Summary() {
   };
   const SoldConfig = {
     data: topSold,
-    xField: "title",
-    yField: "sold",
+    xField: t("title"),
+    yField: t("sold"),
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -90,10 +93,10 @@ function Summary() {
   };
   const Stockconfig = {
     data:topSold,
-    measureField: 'measures',
-    rangeField: 'ranges',
-    targetField: 'target',
-    xField: 'title',
+    measureField: t('measures'),
+    rangeField: t('ranges'),
+    targetField: t('target'),
+    xField: t('title'),
     color: {
       range: ['#FFbcb8', '#FFe0b0', '#bfeec8'],
       measure: '#5B8FF9',

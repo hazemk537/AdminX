@@ -5,6 +5,8 @@ import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 import arEG from 'antd/locale/ar_EG';
 import { useTranslation } from 'react-i18next';
+require('polyfill-object.fromentries');
+
 let toMemo
 function handleData(product){
 return (
@@ -22,17 +24,35 @@ return (
 
 )
 }
+
 const ProductTable = () => {
   const {t}=useTranslation()
   const [productsWithSold,setproductsWithSold]=useState()
+  let translationReady
+  function handleTranslation(obj){
+
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => {  ; return ([
+        
+
+        t(key), 
+        value
+      ])   
+    }))
+
+    
+  }
   useEffect(() => {
     fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
     .then(jsonData => {  
       toMemo=jsonData.products.map(handleData)
-      localStorage.setItem('productsWithSold',JSON.stringify(toMemo))  })
 
-      setproductsWithSold(toMemo)
+      translationReady=toMemo.map(handleTranslation)
+      localStorage.setItem('productsWithSold',JSON.stringify(translationReady)) 
+       setproductsWithSold(translationReady)
+    }
+      )
     .catch((error) => {
         const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
           status: 400,
@@ -156,85 +176,85 @@ const ProductTable = () => {
   const columns = [
     {
       title:  t('id'),
-      dataIndex: 'id',
-      key: 'id',
+      dataIndex: t('id'),
+      key: t('id'),
       width: '10%',
-      ...getColumnSearchProps('id'),
+      ...getColumnSearchProps(t('id')),
     },
     {
       title: t('title'),
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: t('title'),
+      key: t('title'),
       width: '20%',
-      ...getColumnSearchProps('title'),
+      ...getColumnSearchProps(t('title')),
     },
    
     {
       title: t('price'),
-      dataIndex: 'price',
-      key: 'price',
+      dataIndex: t('price'),
+      key: t('price'),
       width: '10%',
-      ...getColumnSearchProps('price'),
+      ...getColumnSearchProps(t('price')),
     },
     {
       title: t('rating'),/// statistics
-      dataIndex: 'rating',
-      key: 'rating',
+      dataIndex: t('rating'),
+      key: t('rating'),
       width: '10%',
-      ...getColumnSearchProps('rating'),
+      ...getColumnSearchProps(t('rating')),
     },
     {
       title: t('stock'),//stock low levels
-      dataIndex: 'stock',
-      key: 'stock',
+      dataIndex: t('stock'),
+      key: t('stock'),
       width: '10%',
-      ...getColumnSearchProps('stock'),
+      ...getColumnSearchProps(t('stock')),
     },
     {
       title:t('sold'),
-      dataIndex: 'sold',
-      key: 'sold',
+      dataIndex: t('sold'),
+      key: t('sold'),
       width: '10%',
-      ...getColumnSearchProps('sold'),
+      ...getColumnSearchProps(t('sold')),
       
     },
     {
       title: t('brand'),
-      dataIndex: 'brand',
-      key: 'brand',
+      dataIndex: t('brand'),
+      key: t('brand'),
       width: '15%',
-      ...getColumnSearchProps('brand'),
+      ...getColumnSearchProps(t('brand')),
     },{
       title: t('threshold'),
-      dataIndex: 'threshold',
-      key: 'threshold',
+      dataIndex: t('threshold'),
+      key: t('threshold'),
       width: '15%',
-      ...getColumnSearchProps('threshold'),
+      ...getColumnSearchProps(t('threshold')),
     },{
       title: t('max'),
-      dataIndex: 'max',
-      key: 'max',
+      dataIndex: t('max'),
+      key: t('max'),
       width: '15%',
-      ...getColumnSearchProps('max'),
+      ...getColumnSearchProps(t('max')),
     },{
       title: t('target'),
-      dataIndex: 'target',
-      key: 'target',
+      dataIndex: t('target'),
+      key: t('target'),
       width: '15%',
-      ...getColumnSearchProps('target'),
+      ...getColumnSearchProps(t('target')),
     },
 
     {
       title: t('category'),//statistic upon categories
-      dataIndex: 'category',
-      key: 'category',
+      dataIndex: t('category'),
+      key: t('category'),
       width: '15%',
-      ...getColumnSearchProps('category'),
+      ...getColumnSearchProps(t('category')),
     },
     {
       title: t('action'),
       dataIndex: '',
-      key: 'x',
+      key: t('action'),
       render: () => <Link>{t("delete")}</Link>,// TODO Add and delete api using forms 
     },
 
@@ -243,7 +263,10 @@ const ProductTable = () => {
   //Todo i donot know  why memoization not work
   //  const memoizedTable=useMemo(()=><Table columns={columns} dataSource={toMemo } />,[toMemo])
   // return memoizedTable;
+//load once data is available
+//use react States no 
+//TODO  not works return (productsWithSold && <Table columns={columns} dataSource={translationReady } /> )
 
-  return <Table columns={columns} dataSource={toMemo }  />
+  return (productsWithSold && <Table columns={columns} dataSource={productsWithSold } /> )
 };
 export default ProductTable

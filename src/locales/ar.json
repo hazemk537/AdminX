@@ -5,7 +5,7 @@
     "facebook": "فيسبوك",
     "twitter": "تويتر",
     "email": "البريد الإلكتروني",
-    "greeting": "مرحباً بكم في موقع شركة الأزرق!",
+    "greeting": "مرحباً بكم في موقع شركة الزرقاء!",
     "gotoButton": "الانتقال إلى صفحة الإدارة",
     "userName": "اسم المستخدم: ",
     "password": "كلمة المرور: ",
@@ -54,6 +54,12 @@
     "highestRatedStat": "المنتجات ذات التقييم الأعلى",
     "highestSoldStat": "المنتجات الأكثر مبيعاً",
     "lowestStockStat": "المنتجات ذات المخزون الأدنى"
-    ,"inCategory":" في "
+    ,"inCategory":" في ",
+      "measures":"قياسات",
+      "ranges":"مدى",
+      "images":"صور",
+      "thumbnail":"مصغر",
+      "discountPercentage":"نسبة الخصم",
+      "description":"وصف"
 
   }

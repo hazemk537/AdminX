@@ -1,10 +1,9 @@
-import React from "react";
-import {  Button, Layout, Menu, theme } from "antd";
+import React, { useState } from "react";
+import {  Button, Layout, Menu , theme} from "antd";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
 const { Header, Content, Sider } = Layout;
-
 
 
 
@@ -74,6 +73,14 @@ const items2 = [
   const {
     token: { colorBgContainer }
   } = theme.useToken();
+  const [language, setLanguage] = useState(null);
+
+function handleSwitch(checked){
+  checked?setLanguage("EN"):setLanguage("AR")
+  console.log("s")
+
+
+}
   return (
     
     <Layout > 
@@ -89,6 +96,7 @@ const items2 = [
           
           }} onClick={logoutHandle} >{t("logout")} </Button>
  
+ 
       </Header>
       <Layout>
         <Sider
@@ -97,6 +105,7 @@ const items2 = [
             background: colorBgContainer
           }}
         >
+
           <Menu
           defaultOpenKeys={[`${baseKey+1}`]}
           defaultSelectedKeys={[`${baseKey+4}`]}
