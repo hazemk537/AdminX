@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import {  Button, Layout, Menu , theme} from "antd";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import {  Button, DatePicker, Layout, Menu , Space, Switch, theme} from "antd";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
@@ -8,11 +8,24 @@ const { Header, Content, Sider } = Layout;
 
 
 const Admin = () => {
-  
+
   const navigate=useNavigate()
-  const {t}=useTranslation()
+  const {t,i18n}=useTranslation()
+  const [lng,setLng]=useState("en")
+  const [rtl,setRtl]=useState(0)
+
+  
+
+  //remebmber lang from last session
+  useLayoutEffect(()=>{  
+    const x= (JSON.parse(localStorage.getItem("rtl")))
+
+  x?i18n.changeLanguage("ar"):i18n.changeLanguage("en")
+  setRtl(x)
 
 
+  },[])
+  
 let categories=[
   t("smartphones"),t(
   "laptops"),t(
@@ -61,6 +74,12 @@ const items2 = [
     key: baseKey+5,
     label: <Link to="/admin/users">{t("users")}</Link>,
   },
+  {
+    key: baseKey+6,
+    label: <Link to="/admin/employee">{t("employee")}</Link>,
+  },
+
+
 ];
 
 
@@ -73,20 +92,17 @@ const items2 = [
   const {
     token: { colorBgContainer }
   } = theme.useToken();
-  const [language, setLanguage] = useState(null);
-
-function handleSwitch(checked){
-  checked?setLanguage("EN"):setLanguage("AR")
-  console.log("s")
+  console.log(rtl)
 
 
-}
   return (
     
-    <Layout > 
+    <Layout  style={{direction:`${rtl?"rtl":"ltr"}` ,padding:0  }}> 
+
       <Header
         style={{
           display: "flex",
+          padding:0,
           alignItems: "center"
         }}
       >
@@ -95,15 +111,17 @@ function handleSwitch(checked){
           backgroundColor:"inherit",
           
           }} onClick={logoutHandle} >{t("logout")} </Button>
+          <Switch style={{marginLeft:"50px"}} checkedChildren="en" unCheckedChildren="ar" onClick={(checked)=>{i18n.changeLanguage(checked?"en":"ar");setLng(checked?"en":"ar");setRtl(checked?0:1);setTimeout(localStorage.setItem("rtl",!rtl),10)}} checked={i18n.language==='en'?true:false}  /> 
+          {/* TODO why should invert the val to store in local storage  */}
+ 
  
  
       </Header>
-      <Layout>
+      <Layout  >
         <Sider
           width={200}
-          style={{
-            background: colorBgContainer
-          }}
+         
+          
         >
 
           <Menu
@@ -126,7 +144,6 @@ function handleSwitch(checked){
               padding: 24,
               margin: 0,
               minHeight: 280,
-              background: colorBgContainer
             }}
           >
             <Outlet/>

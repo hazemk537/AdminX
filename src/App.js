@@ -11,6 +11,9 @@ import Login from "./routes/Login";
 import Admin from "./routes/Admin";
 import AuthElement from "./AuthElement";
 import Protected from "./Protected";
+import EmployeeTable from "./routes/EmployeeTable";
+import EditEmployee from "./routes/EditEmployee";
+import ShowEmployee from "./routes/ShowEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +46,21 @@ export const router = createBrowserRouter([
         path: "users",
         element: <Users />,
       },
+      {path:"employee",
+      element:<EmployeeTable/>
+
+    
+    },
+    {
+      path:"employee/edit",
+      element:<EditEmployee/>
+
+    },{
+      path:"employee/show",
+      element:<ShowEmployee/>
+
+
+    }
     ],
 
 }

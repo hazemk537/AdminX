@@ -1,119 +1,126 @@
-import { Alert } from "antd";
-import { useState } from "react";
+import { Alert, Button, Checkbox, Form, Input } from "antd";
+import { use } from "i18next";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
 
 export default function Login() {
-  const {t}=useTranslation()
-  const [password, setPassword] = useState("");
+  const { t, i18n } = useTranslation();
+  const [formData, setFormData] = useState({email:"hr@gmail.com",password:"123456789"});
   const [rememberPassword, setRememberPassword] = useState(false);
-  const [username, setUserName] = useState("");
+  const [isLoggin,setLogin]=useState(0)
   const navigate = useNavigate();
+  //remebmber lang from last session
+  const x = JSON.parse(localStorage.getItem("rtl"));
+  useEffect(() => {
+    x ? i18n.changeLanguage("ar") : i18n.changeLanguage("en");
+  }, []);
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  const handleUserNameChange = (event) => {
-    setUserName(event.target.value);
-  };
   const handleCheckboxChange = (event) => {
     setRememberPassword(event.target.checked);
   };
+  function successLogin(data){
+    localStorage.setItem("token",JSON.stringify(data.token)) 
+    setLogin(1)
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (rememberPassword) {
-      localStorage.setItem("password", password);
-    }
-    if (username === "atuny0" && password === "9uQFF1Lh") {
-      navigate("/admin",{replace:true});
-      localStorage.setItem("isLoggedIn", 1);
-    }
-    //TODO error in data
-  };
-  const Style = styled.div`
-    form {
-      display: flex;
+    navigate("/admin",{replace:true})
 
+  }
+  function onFinish(values) {
+          //same format TODO
 
-      flex-direction: column;
-      align-items: center;
-      margin: 0 auto;
-      margin-top:20px;
-      width: 300px;
-      padding: 20px;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
-    }
+    fetch("https://alrayademo-back.appssquare.com/api/admin/login", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {data.status === true ? successLogin(data):console.log(data)})
+    .catch(error => console.error(error));
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #333;
-    }
+    
 
-    input[type="text"],
-    input[type="password"],
-    input[type="checkbox"] {
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 2px solid #ccc;
-      font-size: 16px;
-      font-family: Arial, sans-serif;
-      width: 100%;
-    }
-
-    input[type="checkbox"] {
-      margin-left: 10px;
-    }
-
-    button[type="submit"] {
-      background-color: #0077cc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #005fa3;
-    }
-  `;
+  }
+  function onFinishFailed(errorInfo) {
+    console.log("Failed:", errorInfo);
+  }
+  
   return (
+    <div style={{ direction: `${x ? "rtl" : "ltr"}` }}>
+      <Alert message={`${t("email")}:  hr@gmail.com `} type="info" showIcon />
+      <Alert message={`${t("password")}: 123456789 `} type="info" showIcon />
+      <Form defaultValue ={formData}
+        name="basic"
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item 
+          label="email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
+          ]}
+        >
+          <Input defaultValue={formData.email} />
+        </Form.Item>
 
-    <Style>
-      <Alert message="UserName: atuny0 " type="success" />
-      <Alert message="Password: 9uQFF1Lh  " type="success" />
-      <form onSubmit={handleSubmit}>
-        <label>
-        {t("userName")}
-          <input type="text" value={username} onChange={handleUserNameChange} />
-        </label>
-        <label>
-          {t("password")}
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </label>
-        <label>
-          {t("rememberPassword")}
-          <input
-            type="checkbox"
-            checked={rememberPassword}
-            onChange={handleCheckboxChange}
-          />
-        </label>
-        <button type="submit">{t("login")}</button>
-      </form>
-    </Style>
+        <Form.Item defaultValue ={formData.password}
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input.Password defaultValue={formData.password} />
+        </Form.Item>
+
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+      {isLoggin && <Alert type="success" showicon message="Success" style={{ width:"50%"}}/>}
+    </div>
   );
 }

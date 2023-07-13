@@ -11,6 +11,7 @@ const UserTable = () => {
 
 //TODO i canot rerender component on flag change btn click (if i remove memoization)
   useEffect(() => {
+
     fetch('https://dummyjson.com/users')
       .then((response) => response.json())
       .then((data) => {

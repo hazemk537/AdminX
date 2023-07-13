@@ -42,7 +42,45 @@ const ProductTable = () => {
 
     
   }
+  const url = 'https://alrayademo-back.appssquare.com/api/admin/areas';
+const skip = 0; // set the skip parameter to 0
+const offset = 10; // set the offset parameter to 10
+const q = 'example'; // set the q parameter to 'example'
+
+const queryParams = new URLSearchParams({
+  skip: skip,
+  offset: offset,
+  q: q
+});
+
+
   useEffect(() => {
+    
+      
+  
+      const token = JSON.parse(localStorage.getItem("token"))
+  
+      fetch('https://alrayademo-back.appssquare.com/api/admin/areas?skip=1&offset=1&q=ea', {
+        headers: {
+          'Accept': 'application/json',
+    'X-Language': 'en',
+          "Authorization": `Bearer ${token}`,
+
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {console.log(data)
+          
+        })
+        .catch((error) => {console.log(error)
+          
+        });
+   
+    
+  
+  
+
+
     fetch('https://dummyjson.com/products?limit=100')
     .then(res => res.json())
     .then(jsonData => {  
@@ -255,7 +293,14 @@ const ProductTable = () => {
       title: t('action'),
       dataIndex: '',
       key: t('action'),
-      render: () => <Link>{t("delete")}</Link>,// TODO Add and delete api using forms 
+      render: () => <>
+       <Link>{t("delete")}</Link>
+
+     
+      
+
+      
+      </>,// TODO Add and delete api using forms 
     },
 
   ];

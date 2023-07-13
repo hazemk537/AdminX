@@ -11,10 +11,13 @@ const brandColor = "#5B8FF9";
 
 function Summary() {
   const {t,i18n}=useTranslation()
+  const [lng,setLng]=useState()
+  let x=JSON.parse(localStorage.getItem("rtl"))
 
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
   async function hack() {
+
     const data = await JSON.parse(localStorage.getItem("productsWithSold"));
     if (data) { 
       const rating=t("rating")
@@ -28,6 +31,7 @@ function Summary() {
   }
 
   useEffect(() => {
+    console.log("e")
     hack().then((data) => {
       setTopRated(data.topRated);
       setTopSold(data.topSold);
