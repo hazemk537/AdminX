@@ -51,16 +51,7 @@ export const router = createBrowserRouter([
 
     
     },
-    {
-      path:"employee/edit",
-      element:<EditEmployee/>
-
-    },{
-      path:"employee/show",
-      element:<ShowEmployee/>
-
-
-    }
+    
     ],
 
 }

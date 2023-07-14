@@ -211,7 +211,7 @@ const UserTable = () => {
   return<> 
   {/* <Button onClick={()=>{setFlag(!flag)}}>Reload Data</Button> */}
   
-  <Table columns={columns} dataSource={usersTemp} />//
+  <Table columns={columns} dataSource={usersTemp} />
   </>
 };
 export default UserTable;

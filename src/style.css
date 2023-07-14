@@ -1,0 +1,46 @@
+
+html,body{
+    height:100vh !important;
+}
+
+#root {
+    height: 100% 
+}
+.ant-layout > header{
+    justify-content: center;
+align-items: center;
+
+}
+
+.ant-layout-content  {
+    padding: 0 !important; 
+       padding-top:1px !important;
+
+
+    
+    }
+.ant-layout{
+
+    height:100% !important;
+}
+
+.ant-layout-sider{
+
+    /* background-color: aqua !important; */
+    height: 100% !important; /* make the flex item take all available height */
+
+
+    
+}
+
+aside{
+
+    height:100% !important;
+
+
+}
+
+.ant-layout >section{
+
+    padding-bottom: 0 !important;
+}

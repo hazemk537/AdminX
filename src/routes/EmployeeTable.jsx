@@ -16,12 +16,16 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
+import { EVForm } from "../Evform";
 
 export function App() {
   const token = JSON.parse(localStorage.getItem("token"));
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
+  const [ViewModalopen,setViewModalOpen]=useState(0)
+  const [EditModelOpen,setEditModelOpen]=useState(0)
+  const [EVData,setEVData]=useState()
   const confirm = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -47,6 +51,22 @@ export function App() {
     message.success("Click on Yes");
   };
 
+  function EditViewData(key){
+    let Item
+
+    fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${key}`,{
+      headers:{Authorization:`Bearer ${token}`},
+      Method:'GET',
+      "Content-Type": "application/json",
+    }).then((response)=>response.json()).then((jsonData)=>{setEVData(jsonData.data);console.log(jsonData.data);})
+
+
+
+
+    setEVData(Item)
+    
+
+  }
   const cancel = (e) => {
     console.log(e);
     message.error("Click on No");
@@ -100,17 +120,15 @@ export function App() {
           >
             <Button danger>Delete</Button>
           </Popconfirm>
-          <Link to={"edit"}>
-            <EditOutlined />
-          </Link>
-          <Link to={"show"}>
-            <EyeOutlined />
-          </Link>
+          <EyeOutlined onClick={()=>{setViewModalOpen(1);EditViewData(record.id);}}/>
+          <EditOutlined onClick={()=>{setEditModelOpen(1);let element = document.querySelector('.ant-modal-root ');
+                element.style.display = 'block';;EditViewData(record.id)}} />
         </Space>
       ),
     },
   ];
-
+ 
+  
   function handleAddSubmit(values) {
     fetch("https://alrayademo-back.appssquare.com/api/admin/job-titles", {
       method: "POST",
@@ -132,6 +150,11 @@ export function App() {
     setAddModalopen(0);
   }
 
+  function habdleAddCancel(){
+    setAddModalopen(0)
+
+    
+  }
   useEffect(() => {
     fetch("https://alrayademo-back.appssquare.com/api/admin/job-titles", {
       method: "GET",
@@ -143,7 +166,7 @@ export function App() {
       },
     })
       .then((response) => response.json())
-      .then((data) => setData(data.data))
+      .then((data) => {setData(data.data);console.log(data)})
       .catch((error) => console.error(error));
   }, []);
 
@@ -155,7 +178,7 @@ export function App() {
           <UserAddOutlined /> Add New{" "}
         </Button>
         <Table columns={columns} dataSource={data} />
-        <Modal title="Basic Modal" open={AddModalopen} footer={null}>
+        <Modal title="Add New Employee" open={AddModalopen} onCancel = {habdleAddCancel} footer={null}>
           <Form
             onFinish={handleAddSubmit}
             name="basic"
@@ -207,6 +230,7 @@ export function App() {
             >
               <Input />
             </Form.Item>
+       
           
             <Form.Item
               wrapperCol={{
@@ -220,8 +244,18 @@ export function App() {
             </Form.Item>
           </Form>
         </Modal>
+        <Modal title="Basic Modal" open={ViewModalopen} onCancel = {()=>setViewModalOpen(0)} footer={null}>
+        {EVData && <EVForm data={EVData} type="view"/>}
+        </Modal>
+        <Modal title="Basic Modal" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
+         
+                 {EVData && <EVForm data={EVData} type="edit"/>} 
+
+
+        </Modal>
       </>
     )
   );
 }
+
 export default App;

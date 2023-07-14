@@ -1,8 +1,9 @@
 import React from 'react';
-import { Navigate, BrowserRouter as Router, RouterProvider } from 'react-router-dom';
+import {  RouterProvider } from 'react-router-dom';
 import { router } from './App';
-import Protected from './Protected';
-import { ConfigProvider } from 'antd';
+// import Protected from './Protected';
+// import { ConfigProvider } from 'antd';
+import './style.css'
 import i18n from './i18next';
 
 import { I18nextProvider } from 'react-i18next';
