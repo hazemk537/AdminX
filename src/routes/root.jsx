@@ -8,7 +8,6 @@ import {
   TwitterOutlined,
   MailOutlined,
 } from "@ant-design/icons";
-import { styled } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { Switch } from "antd";
 
@@ -28,94 +27,27 @@ export default function Root() {
     }
   };
 
-  const Wrapper = styled.div`
-    body {
-      /* todo */
-      background: linear-gradient(to left, #bb9fb8, transparent);
-      font-family: "Orbitron", sans-serif;
-      font-family: sans-serif;
-      color: #d9d9d9;
-    }
-
-    header {
-      margin-left: 100px;
-      margin-right: 100px;
-      margin-top: 5%;
-      display: flex;
-      justify-content: space-around;
-    }
-
-    span {
-      /* margin-right: 1.5rem; */
-      cursor: pointer;
-      color: #0077cc;
-      transition: all 0.3s ease;
-      position: relative;
-      display: inline-block;
-    }
-
-    span:hover {
-      color: #ff2a2a;
-    }
-
-    h1 {
-      font-size: 3rem;
-      text-align: center;
-      margin-top: 10rem;
-      color: #0077cc;
-    }
-
-    button {
-      display: block;
-      margin: 0 auto;
-      background-color: #0077cc;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    span:hover::before {
-      content: attr(data-text);
-      position: absolute;
-      top: -2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #0077cc;
-      color: #d9d9d9;
-      padding: 0.5rem;
-      border-radius: 5px;
-      font-size: 0.8rem;
-      white-space: nowrap;
-    }
-  `;
-
-
   return (
-    <Wrapper>
 
-      <div className="">
+      <div className="landing-page">
         <header className="header">
         <span data-text={t("about")}>
-            <InfoCircleOutlined />{" "}
+            <InfoCircleOutlined style={{ color:'#5273de'  }}  color="red"/>{" "}
           </span>
           <span data-text={t("features")}>
-            <StarOutlined />{" "}
+            <StarOutlined style={{ color: '#5273de' }} />{" "}
           </span>
           <span data-text={t("download")}>
-            <DownloadOutlined />{" "}
+            <DownloadOutlined  style={{ color: '#5273de' }} />{" "}
           </span>
           <span data-text={t("facebook")}>
-            <FacebookOutlined />{" "}
+            <FacebookOutlined style={{ color: '#5273de' }}  />{" "}
           </span>
           <span data-text={t("twitter")}>
-            <TwitterOutlined />{" "}
+            <TwitterOutlined  style={{ color: '#5273de' }} />{" "}
           </span>
           <span data-text={t("email")}>
-            <MailOutlined />{" "}
+            <MailOutlined style={{ color: '#5273de' }} />{" "}
           </span>
         </header>
 
@@ -124,6 +56,5 @@ export default function Root() {
           {t("gotoButton")}
         </button>
       </div>
-    </Wrapper>
   );
 }

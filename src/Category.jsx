@@ -4,9 +4,19 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tag } from "antd";
 import arTranslations from "./locales/ar.json";
-import leven from 'leven';
 
+function compareStrs(s,t){
+  let count = 0;
+  const minLen = Math.min(s.length, t.length);
+  for (let i = 0; i < minLen; i++) {
+    if (s.charAt(i) !== t.charAt(i)) {
+      count++;
+    }
+  }
+  count += Math.abs(s.length - t.length);
+  return count
 
+}
 const paletteSemanticRed = "#F4664A";
 const brandColor = "#5B8FF9";
 //solve asynchronous problems!  to inssure toprated is not null and having needed data
@@ -35,10 +45,10 @@ function Category() {
           if (i18n.language==="ar"){
             const translatedString = catid
           const translationKey = findKeyByValue(arTranslations, translatedString);
-          return (leven (item.الفئة ,translationKey.toLowerCase()) <=1);       
+          return (compareStrs (item.الفئة ,translationKey.toLowerCase()) <=1);       
 
         }
-          return (leven (item.Category.toLowerCase() ,catid.toLowerCase()) <= 2);       
+          return (compareStrs (item.Category.toLowerCase() ,catid.toLowerCase()) <= 2);       
       })
 
 

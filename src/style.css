@@ -1,6 +1,8 @@
 
 html,body{
     height:100vh !important;
+    margin-top: 0 ;
+    margin-left: 0;
 }
 
 #root {
@@ -44,3 +46,95 @@ aside{
 
     padding-bottom: 0 !important;
 }
+
+
+
+    .landing-page {
+      /* todo */
+      height:100%;
+      margin-top : 0 ;
+      margin-bottom:0;
+
+      padding-top:0px;
+      padding-right:0;
+      background: linear-gradient(to right, #94a5b8, transparent);
+      font-family: "Orbitron", sans-serif;
+      font-family: sans-serif;
+      color: #d9d9d9;
+    }
+
+   .landing-page > header {
+
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+ /* .landing-page   > TODO not work  span { */
+   landing span{
+
+      /* margin-right: 1.5rem; */
+      cursor: pointer;
+      color: #206291  !important;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    .landing-page>  span:hover {
+      color: #cf3f8a !important
+    }
+
+    .landing-page >  h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      color: #0077cc;
+
+    }
+
+    .landing-page > button {
+      display: block;
+      margin: 0 auto;
+      background-color: #0077cc;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+     .landing-page  span:hover::before {
+         /* .landing-page > span TODO not work */
+      content: attr(data-text);
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(50%);
+      background-color: #0077cc;
+      color: #d9d9d9;
+      padding: 0.5rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+    }
+
+    .login-form{
+            display: flex; /* set container to be a flex container */
+            align-items: center; /* center items vertically */
+            justify-content: center; /* center items horizontally */
+            height: 100vh; /* set a height for the container */
+          
+
+
+
+    }
+
+    .login-form >  .alerts{
+    }
+   form{
+
+    flex:1;
+    }

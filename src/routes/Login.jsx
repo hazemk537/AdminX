@@ -20,10 +20,10 @@ export default function Login() {
     setRememberPassword(event.target.checked);
   };
   function successLogin(data){
+        
     localStorage.setItem("token",JSON.stringify(data.token)) 
-    setLogin(1)
-
     navigate("/admin",{replace:true})
+
 
   }
   function onFinish(values) {
@@ -40,7 +40,7 @@ export default function Login() {
       }),
     })
     .then(response => response.json())
-    .then(data => {data.status === true ? successLogin(data):console.log(data)})
+    .then(data => {if(data.staus) {setLogin(1);console.log(isLoggin);successLogin(data);}})
     .catch(error => console.error(error));
 
     
@@ -51,10 +51,14 @@ export default function Login() {
   }
   
   return (
-    <div style={{ direction: `${x ? "rtl" : "ltr"}` }}>
+    <div className="login-form" style={{ direction: `${x ? "rtl" : "ltr"}` }}>
+      <div className="alerts">
       <Alert message={`${t("email")}:  hr@gmail.com `} type="info" showIcon />
       <Alert message={`${t("password")}: 123456789 `} type="info" showIcon />
-      <Form defaultValue ={formData}
+      {isLoggin && <Alert type="success"  message="Success Login"  showIcon/>}
+
+      </div>
+      <Form 
         name="basic"
         labelCol={{
           span: 8,
@@ -65,9 +69,7 @@ export default function Login() {
         style={{
           maxWidth: 600,
         }}
-        initialValues={{
-          remember: true,
-        }}
+        initialValues= {formData}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -115,12 +117,13 @@ export default function Login() {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button type="primary"  htmlType="submit">
             Submit
           </Button>
         </Form.Item>
       </Form>
-      {isLoggin && <Alert type="success" showicon message="Success" style={{ width:"50%"}}/>}
+      {/* TODO whyif isloggin =0 it will mount 0 and if 1 it will mount the alert */}
+    
     </div>
   );
 }

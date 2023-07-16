@@ -42,7 +42,7 @@ const ProductTable = () => {
 
     
   }
-  const url = 'https://alrayademo-back.appssquare.com/api/admin/areas';
+const url = 'https://alrayademo-back.appssquare.com/api/admin/areas';
 const skip = 0; // set the skip parameter to 0
 const offset = 10; // set the offset parameter to 10
 const q = 'example'; // set the q parameter to 'example'
