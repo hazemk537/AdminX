@@ -14,18 +14,23 @@ import {
   EyeOutlined,
   UserAddOutlined,
   EditOutlined,
-  DeleteOutlined,
+  
 } from "@ant-design/icons";
 import { Link, json } from "react-router-dom";
-import { EVForm } from "../Evform";
+import { EVForm } from "../EVform";
 
+ function StyleIssue(){
+  let element = document.querySelector('.ant-modal-root');
+                element.style.display = 'block';
+ }
 export function App() {
   const token = JSON.parse(localStorage.getItem("token"));
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
   const [ViewModalopen,setViewModalOpen]=useState(0)
   const [EditModelOpen,setEditModelOpen]=useState(0)
-  const [EVData,setEVData]=useState()
+  const [EVData,setEVData]=useState(null)//element is null async error
+  const [reFetchFlag,setReFetchFlag]=useState(0)
   const confirm = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -39,7 +44,6 @@ export function App() {
       .then((response) => {
         if (response.ok) {
           console.log("Job title deleted successfully");
-          console.log(response);
         } else {
           console.error("Error deleting job title");
           return response.json();
@@ -49,22 +53,29 @@ export function App() {
       .catch((error) => console.error(error));
 
     message.success("Click on Yes");
+    setReFetchFlag(!reFetchFlag)
   };
 
   function EditViewData(key){
-    let Item
 
     fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${key}`,{
       headers:{Authorization:`Bearer ${token}`},
       Method:'GET',
       "Content-Type": "application/json",
-    }).then((response)=>response.json()).then((jsonData)=>{setEVData(jsonData.data);console.log(jsonData.data);})
+    }).then((response)=>response.json()).then((jsonData)=>{setEVData(jsonData.data);})
 
 
-
-
-    setEVData(Item)
     
+
+  }
+  function  EditData(key){
+
+    const Item=data.filter((item)=>item.id===key)
+    setEVData(Item[0])//i need only the first item caz it returns array
+    
+
+
+
 
   }
   const cancel = (e) => {
@@ -121,9 +132,8 @@ export function App() {
             <Button danger>Delete</Button>
           </Popconfirm>
           <EyeOutlined onClick={()=>{setViewModalOpen(1);EditViewData(record.id);}}/>
-          <EditOutlined onClick={()=>{setEditModelOpen(1);let element = document.querySelector('.ant-modal-root ');
-                element.style.display = 'block';;EditViewData(record.id)}} />
-        </Space>
+          <EditOutlined onClick={()=>{setEditModelOpen(1) ;EditData(record.id)}} />
+        </Space> //element null problem
       ),
     },
   ];
@@ -140,6 +150,7 @@ export function App() {
     })
       .then((response) => {
         if (response.ok) {
+          setReFetchFlag(!reFetchFlag)
           console.log("Job title created successfully");
         } else {
           console.error("Error creating job title");
@@ -166,9 +177,9 @@ export function App() {
       },
     })
       .then((response) => response.json())
-      .then((data) => {setData(data.data);console.log(data)})
+      .then((data) => {setData(data.data)})
       .catch((error) => console.error(error));
-  }, []);
+  }, [reFetchFlag]);
 
   return (
     data && (
@@ -244,10 +255,10 @@ export function App() {
             </Form.Item>
           </Form>
         </Modal>
-        <Modal title="Basic Modal" open={ViewModalopen} onCancel = {()=>setViewModalOpen(0)} footer={null}>
+        <Modal title="View More Data" open={ViewModalopen} onCancel = {()=>setViewModalOpen(0)} footer={null}>
         {EVData && <EVForm data={EVData} type="view"/>}
         </Modal>
-        <Modal title="Basic Modal" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
+        <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
          
                  {EVData && <EVForm data={EVData} type="edit"/>} 
 

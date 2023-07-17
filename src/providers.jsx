@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import {  RouterProvider } from 'react-router-dom';
 import { router } from './App';
 // import Protected from './Protected';
@@ -11,7 +11,7 @@ import { I18nextProvider } from 'react-i18next';
 
 function Providers({  children }) {
   return (
-    <I18nextProvider i18n={i18n}>
+   <I18nextProvider i18n={i18n}>
     <RouterProvider router={router}>
           {children}
       </RouterProvider >  

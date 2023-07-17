@@ -92,7 +92,6 @@ const items2 = [
   const {
     token: { colorBgContainer }
   } = theme.useToken();
-  console.log(rtl)
 
 
   return (
