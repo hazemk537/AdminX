@@ -1,5 +1,6 @@
 
-html,body{
+body{
+  
     height:100vh !important;
     margin-top: 0 ;
     margin-left: 0;
@@ -57,7 +58,7 @@ aside{
 
       padding-top:0px;
       padding-right:0;
-      background: linear-gradient(to right, #94a5b8, transparent);
+      background: linear-gradient(to right, #d5dae0, transparent);
       font-family: "Orbitron", sans-serif;
       font-family: sans-serif;
       color: #d9d9d9;
@@ -65,38 +66,34 @@ aside{
 
    .landing-page > header {
 
-      padding-top: 20px;
+      padding-top: 40px;
       display: flex;
       justify-content: space-around;
     }
 
  /* .landing-page   > TODO not work  span { */
-   landing span{
+   .landing-page span{
 
       /* margin-right: 1.5rem; */
       cursor: pointer;
       color: #206291  !important;
       transition: all 0.3s ease;
       position: relative;
-      display: inline-block;
     }
 
     .landing-page>  span:hover {
       color: #cf3f8a !important
     }
 
-    .landing-page >  h1 {
+    .landing-page > div > h1 {
       font-size: 3rem;
       text-align: center;
-      margin-top: 50px;
-      margin-bottom: 50px;
       color: #0077cc;
 
     }
 
-    .landing-page > button {
+    .landing-page >div> button {
       display: block;
-      margin: 0 auto;
       background-color: #0077cc;
       border: none;
       padding: 1rem 2rem;
@@ -107,18 +104,21 @@ aside{
       transition: all 0.3s ease;
     }
 
-     .landing-page  span:hover::before {
+     .landing-page   span:hover::before {
          /* .landing-page > span TODO not work */
       content: attr(data-text);
+      white-space: nowrap ;
       position: absolute;
       top: 1rem;
       left: 50%;
-      transform: translateX(50%);
+      transform: translateX(35%);
       background-color: #0077cc;
       color: #d9d9d9;
       padding: 0.5rem;
       border-radius: 5px;
       font-size: 0.8rem;
+      max-width: 200px;
+
     }
 
     .login-form{
@@ -126,6 +126,13 @@ aside{
             align-items: center; /* center items vertically */
             justify-content: center; /* center items horizontally */
             height: 100vh; /* set a height for the container */
+            /* position:relative;TODO toedit */
+            font-size: 100px !important;
+            padding-left: 10%;
+            padding-right: 10%;;
+            background: linear-gradient(to  right, #d5dae0, transparent);
+
+
           
 
 
@@ -133,8 +140,25 @@ aside{
     }
 
     .login-form >  .alerts{
+      transform: translate(10px,-72px);
+      flex:1;
+      padding-left: 0;
+
+
     }
    form{
-
-    flex:1;
+    flex:2;
     }
+.landing-main{
+  margin-top:15rem;
+  display: flex;
+  flex-direction:column;
+  align-items: center !important;
+  align-content:center !important;
+}
+
+
+.employee-table{
+  margin-top:1rem;
+  
+}

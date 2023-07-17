@@ -84,7 +84,7 @@ const items2 = [
 
 
   const logoutHandle =  ()=>{
-    localStorage.setItem("isLoggedIn",0)
+    localStorage.setItem("remember",null)
     navigate("/")
   
   

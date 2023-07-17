@@ -172,12 +172,12 @@ export function App() {
 
   return (
     data && (
-      <>
-        <Button onClick={() => setAddModalopen(1)}>
+      <div className="employee-table">
+        <Button  onClick={() => setAddModalopen(1)}>
           {" "}
           <UserAddOutlined /> Add New{" "}
         </Button>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{pageSize:6}}/>
         <Modal title="Add New Employee" open={AddModalopen} onCancel = {habdleAddCancel} footer={null}>
           <Form
             onFinish={handleAddSubmit}
@@ -253,7 +253,7 @@ export function App() {
 
 
         </Modal>
-      </>
+      </div>
     )
   );
 }

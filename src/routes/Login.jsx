@@ -1,4 +1,5 @@
 import { Alert, Button, Checkbox, Form, Input } from "antd";
+import {LoadingOutlined} from '@ant-design/icons'
 import { use } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
-  const [formData, setFormData] = useState({email:"hr@gmail.com",password:"123456789"});
-  const [rememberPassword, setRememberPassword] = useState(false);
-  const [isLoggin,setLogin]=useState(0)
+  const [formData, setFormData] = useState({email:"hr@gmail.com",password:"123456789",remember:true});
+  const [rememberPassword, setRememberPassword] = useState(true);
+  const [isReceive,setRecived]=useState(false)
+  const [isLoggin,setLogin]=useState(false)
+  const [isRemember,setRemember]=useState(true)
+
   const navigate = useNavigate();
   //remebmber lang from last session
   const x = JSON.parse(localStorage.getItem("rtl"));
@@ -20,14 +24,17 @@ export default function Login() {
     setRememberPassword(event.target.checked);
   };
   function successLogin(data){
-        
-    localStorage.setItem("token",JSON.stringify(data.token)) 
-    navigate("/admin",{replace:true})
-
+    // setLogin(true);
+    if (isRemember){
+      localStorage.setItem("remember",JSON.stringify(1)) 
+   }
+   localStorage.setItem("token",JSON.stringify(data.token)) 
+   setTimeout( navigate("/admin",{replace:true}),10000)
 
   }
   function onFinish(values) {
           //same format TODO
+
 
     fetch("https://alrayademo-back.appssquare.com/api/admin/login", {
       method: "POST",
@@ -39,8 +46,8 @@ export default function Login() {
         password: values.password,
       }),
     })
-    .then(response => response.json())
-    .then(data => {if(data.staus) {setLogin(1);console.log(isLoggin);successLogin(data);}})
+    .then(response =>{ setRecived(true);return response.json()})
+    .then(jsonData => {if(jsonData.status===true) {successLogin(jsonData);}})
     .catch(error => console.error(error));
 
     
@@ -55,7 +62,9 @@ export default function Login() {
       <div className="alerts">
       <Alert message={`${t("email")}:  hr@gmail.com `} type="info" showIcon />
       <Alert message={`${t("password")}: 123456789 `} type="info" showIcon />
-      {isLoggin && <Alert type="success"  message="Success Login"  showIcon/>}
+      {isReceive && <Alert type="info"   message="Parsing Response ... "  showIcon icon={<LoadingOutlined/>}/>}
+      {/* {isLoggin && <Alert type="success"  message="Success Login"  showIcon />} */}
+      {/* TODO canoot popup login success and delay logn */}
 
       </div>
       <Form 
@@ -66,9 +75,7 @@ export default function Login() {
         wrapperCol={{
           span: 16,
         }}
-        style={{
-          maxWidth: 600,
-        }}
+       
         initialValues= {formData}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -84,10 +91,10 @@ export default function Login() {
             },
           ]}
         >
-          <Input defaultValue={formData.email} />
+          <Input  />
         </Form.Item>
 
-        <Form.Item defaultValue ={formData.password}
+        <Form.Item 
           label="Password"
           name="password"
           rules={[
@@ -108,7 +115,8 @@ export default function Login() {
             span: 16,
           }}
         >
-          <Checkbox>Remember me</Checkbox>
+          <Checkbox onClick={()=>    setRemember(!isRemember)
+}>Remember me</Checkbox>
         </Form.Item>
 
         <Form.Item
@@ -122,6 +130,7 @@ export default function Login() {
           </Button>
         </Form.Item>
       </Form>
+
       {/* TODO whyif isloggin =0 it will mount 0 and if 1 it will mount the alert */}
     
     </div>
