@@ -21,6 +21,7 @@ import Spinner from "../components/Spinner";
 
  
 export function EmployeeTable() {
+
   const token = JSON.parse(localStorage.getItem("token"));
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
@@ -163,6 +164,7 @@ export function EmployeeTable() {
     setAddModalopen(0)
 
     
+    
   }
   // NOTE console.log("here") 2times
 
@@ -260,7 +262,7 @@ if (!data) return <Spinner/>
           </Form>
         </Modal>
         <Modal title="View More Data" open={ViewModalopen} onCancel = {()=>setViewModalOpen(0)} footer={null}>
-        {EVData && <EVForm data={EVData} type="view"/>}
+        {EVData && <EVForm data={EVData}  type="view"/>}
         </Modal>
         {/* NOTE model not excutes until flag is open */}
         <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
@@ -269,6 +271,7 @@ if (!data) return <Spinner/>
 
 
         </Modal>
+
       </div>
   );
 }

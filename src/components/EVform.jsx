@@ -1,42 +1,47 @@
 import { Button, Form, Input } from "antd"
 import {  useEffect, useState } from "react";
 
-function handlePUT(values){
-const token=JSON.parse(localStorage.getItem("token"))
-
-fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${values.id}`,{
-    method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({name_ar:values.name_ar,name_en:values.name_en})
-    })
-.then((response)=>response.json())
-.then((jsonData)=>console.log(jsonData))//TODO edit only effected
-.catch((err)=>{console.log(err)})
-
-// SHOULD REDUX change vlag to refresh ! no way no local storage
-
-//kill without open property NO REDUX
-let element = document.querySelector('.ant-modal-root');
-element.style.display = 'none';
-element.style.visibility='hidden'
-
-
-}
  export const EVForm= ({data,type}) => {
   
-  console.log(data)// TODO when evform called again with new data it donot change
+  // console.log(data)// TODO when evform called again with new data it donot change
   const [datas,setDatas]=useState(data)
  
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(()=> setDatas(data))//TODO on every render update with new value
+  const [form] = Form.useForm();
 
+
+  function handlePUT(values){
+    const token=JSON.parse(localStorage.getItem("token"))
+    
+    fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${values.id}`,{
+        method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({name_ar:values.name_ar,name_en:values.name_en})
+        })
+    .then((response)=>response.json())
+    .then((jsonData)=>console.log(jsonData))//TODO edit only effected
+    .catch((err)=>{console.log(err)})
+    
+    // SHOULD REDUX change vlag to refresh ! no way no local storage
+    
+    //kill without open property NO REDUX
+    let element = document.querySelector('.ant-modal-root');
+    element.style.visibility='hidden'
+    
+    
+    }
+  useEffect(() => {
+    setDatas(data);
+    form.setFieldsValue(datas);
+
+    });
   if (type==="view") 
   { return (
         
-    <Form  
+    <Form  form={form}
    
     labelCol={{
       span: 8,
@@ -97,7 +102,9 @@ element.style.visibility='hidden'
 else {
   return (
         
-       <Form onFinish={handlePUT} 
+       <Form 
+       onClose
+       onFinish={handlePUT} 
       
        labelCol={{
          span: 8,
@@ -109,7 +116,7 @@ else {
          maxWidth: 600,
        }}
        autoComplete="off"
-       initialValues={datas}
+       initialValues={datas}//Note should be reset on each rerender 
       >
     {  
             // eslint-disable-next-line array-callback-return
