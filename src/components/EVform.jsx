@@ -1,7 +1,6 @@
 import { Button, Form, Input } from "antd"
 import {  useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleDisplay, ToggleEditModelOpen } from "../Store";
 
  export const EVForm= ({data,type}) => {
   
@@ -10,12 +9,17 @@ import { ToggleDisplay, ToggleEditModelOpen } from "../Store";
  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
+
   const EditModelOpen = useSelector(state => state.EditModelOpen);
   const dispatch = useDispatch()
+  // form.setFieldsValue(datas);
 
-console.log(datas)
+console.log(EditModelOpen)
   function handlePUT(values){
     const token=JSON.parse(localStorage.getItem("token"))
+    console.log(values.id)
+
     
     fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${values.id}`,{
         method: "PUT",
@@ -42,8 +46,10 @@ console.log(datas)
   useEffect(() => {
     setDatas(data);
     form.setFieldsValue(datas);
+    form2.setFieldsValue(datas);
 
-    },[]);
+
+    });
   if (type==="view") 
   { return (
         
@@ -108,7 +114,7 @@ console.log(datas)
 else {
   return (
         
-       <Form 
+       <Form form={form2}
        onClose
        onFinish={handlePUT} 
       
