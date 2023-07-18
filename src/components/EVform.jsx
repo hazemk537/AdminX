@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd"
 import {  useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleDisplay, ToggleEditModelOpen } from "../EditSlice";
+import { ToggleDisplay, ToggleEditModelOpen } from "../Store";
 
  export const EVForm= ({data,type}) => {
   
@@ -10,11 +10,10 @@ import { ToggleDisplay, ToggleEditModelOpen } from "../EditSlice";
  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [form] = Form.useForm();
-  const EditModelOpen = useSelector((state) => state.EditModelOpen.value)
+  const EditModelOpen = useSelector(state => state.EditModelOpen);
   const dispatch = useDispatch()
-  const toggleDisplay = useSelector((state) => state.EditModelOpen.toggleDisplay)
 
-
+console.log(datas)
   function handlePUT(values){
     const token=JSON.parse(localStorage.getItem("token"))
     
@@ -35,20 +34,16 @@ import { ToggleDisplay, ToggleEditModelOpen } from "../EditSlice";
     //NOTE kill without open property NO REDUX
   
     
-    dispatch(ToggleEditModelOpen())
-    dispatch(ToggleDisplay())
-    
-    
+    dispatch({ type: 'EditModelOpen' })
 
 
-    console.log(EditModelOpen)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setDatas(data);
     form.setFieldsValue(datas);
 
-    });
+    },[]);
   if (type==="view") 
   { return (
         

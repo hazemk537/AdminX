@@ -1,4 +1,5 @@
 import React, {  useEffect,  useState } from "react";
+
 import {
   Button,
   Form,
@@ -19,7 +20,7 @@ import {
 import {EVForm} from "../components/EVform";
 import Spinner from "../components/Spinner";
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleDisplay } from "../EditSlice";
+import { ToggleDisplay } from "../Store";
 
  
 export function EmployeeTable() {
@@ -30,9 +31,8 @@ export function EmployeeTable() {
   const [ViewModalopen,setViewModalOpen]=useState(0)
   const [EVData,setEVData]=useState(null)//element is null async error
   const [reFetchFlag,setReFetchFlag]=useState(0)
-  const EditModelOpen = useSelector((state) => state.EditModelOpen.toggleDisplay)
-  const dispatch = useDispatch()
-
+  const EditModelOpen = useSelector(state => state.EditModelOpen);
+   const dispatch = useDispatch()
   const confirm = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -135,7 +135,8 @@ export function EmployeeTable() {
             <Button danger>Delete</Button>
           </Popconfirm>
           <EyeOutlined onClick={()=>{setViewModalOpen(1);EditViewData(record.id);}}/>
-          <EditOutlined onClick={()=>{dispatch(ToggleDisplay());console.log(EditModelOpen) ;EditData(record.id)}} />
+          <EditOutlined onClick={()=>{  dispatch({ type: 'EditModelOpen' });
+ ;EditData(record.id)}} />
         </Space> //element null problem
       ),
     },
@@ -172,7 +173,6 @@ export function EmployeeTable() {
   }
   // NOTE console.log("here") 2times
   const PutFlag = useSelector((state) => state.EditModelOpen)
-
   useEffect(() => {
       // NOTE console.log("here") 1times
 
@@ -270,7 +270,8 @@ if (!data) return <Spinner/>
         {EVData && <EVForm data={EVData}  type="view"/>}
         </Modal>
         {/* NOTE model not excutes until flag is open */}
-        <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{dispatch(ToggleDisplay()) }} footer={null}>
+        <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{  dispatch({ type: 'EditModelOpen' })
+ }} footer={null}>
          
                  {EVData && <EVForm data={EVData} type="edit"/>} 
 

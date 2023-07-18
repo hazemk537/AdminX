@@ -7,7 +7,7 @@ import './style.css'
 import i18n from './i18next';
 
 import { I18nextProvider } from 'react-i18next';
-import { store } from './store';
+import store from './Store';
 
 import {Provider} from 'react-redux' //TODO
 function Providers({  children }) {
