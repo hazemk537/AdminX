@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Bullet, Column } from "@ant-design/plots";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Tag } from "antd";
+import { Carousel, Tag } from "antd";
 import arTranslations from "../locales/ar.json";
 
 function compareStrs(s,t){
@@ -153,11 +153,12 @@ function Category() {
     yAxis: false,
     // 自定义 legend
   };
-
+ 
   return (
-    <div className="statistics">
-      <div className="CategoryStats">
-        <h1>
+    <div  className="statistics">
+      <Carousel >
+      <div>
+      <h1>
           {t("highestRatedStat")}
           {t("inCategory")}{" "}
           <Tag bordered={false} color="blue">
@@ -166,7 +167,9 @@ function Category() {
           </Tag>
         </h1>
         <Column {...Ratingconfig} />
-        <div>
+      </div>
+      <div>
+      <div>
           <h1>
             {t("highestSoldStat")}
             {t("inCategory")}{" "}
@@ -176,9 +179,12 @@ function Category() {
             </Tag>
           </h1>
           <Column {...SoldConfig} />
-        </div>
-
-        <div>
+        </div> 
+        
+      </div>
+      <div>
+        
+      <div>
           <h1>
             {t("lowestStockStat")}
             {t("inCategory")}
@@ -190,7 +196,9 @@ function Category() {
           <Bullet {...Stockconfig} />;
         </div>
       </div>
-    </div>
+    </Carousel>
+        
+            </div>
   );
 }
 

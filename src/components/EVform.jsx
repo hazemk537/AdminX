@@ -15,10 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
   const dispatch = useDispatch()
   // form.setFieldsValue(datas);
 
-console.log(EditModelOpen)
   function handlePUT(values){
     const token=JSON.parse(localStorage.getItem("token"))
-    console.log(values.id)
 
     
     fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${values.id}`,{

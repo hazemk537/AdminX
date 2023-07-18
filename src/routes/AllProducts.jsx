@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Bullet, Column } from "@ant-design/plots";
 import { useTranslation } from "react-i18next";
+import { Carousel } from "antd";
 
 const paletteSemanticRed = "#F4664A";
 const brandColor = "#5B8FF9";
@@ -121,20 +122,41 @@ function Summary() {
    
 
   return (
-    <div className="statistics">
-      <div className="RatingPie">
-        <h1>{t("highestRatedStat")}</h1>
-        <Column {...Ratingconfig} />
-        <h1>{t("highestSoldStat")}</h1>
-
+    <div  className="statistics">
+    <Carousel>
+    <div>
+    <h1>
+        {t("highestRatedStat")}
+        {t("inCategory")}{" "}
+       
+      </h1>
+      <Column {...Ratingconfig} />
+    </div>
+    <div>
+    <div>
+        <h1>
+          {t("highestSoldStat")}
+          {t("inCategory")}{" "}
+          
+        </h1>
         <Column {...SoldConfig} />
-      </div>
-      <div>
-        <h1>{t("lowestStockStat")}</h1>
-      <Bullet {...Stockconfig} />;
-      </div>
+      </div> 
       
     </div>
+    <div>
+      
+    <div>
+        <h1>
+          {t("lowestStockStat")}
+          {t("inCategory")}
+          
+        </h1>
+        <Bullet {...Stockconfig} />;
+      </div>
+    </div>
+  </Carousel>
+      
+          </div>
   );
 }
 
