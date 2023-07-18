@@ -10,9 +10,7 @@ const brandColor = "#5B8FF9";
 
 
 function Summary() {
-  const {t,i18n}=useTranslation()
-  const [lng,setLng]=useState()
-  let x=JSON.parse(localStorage.getItem("rtl"))
+  const {t}=useTranslation()
 
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
@@ -20,8 +18,7 @@ function Summary() {
 
     const data = await JSON.parse(localStorage.getItem("productsWithSold"));
     if (data) { 
-      const rating=t("rating")
-      const sold=t("sold")
+     
       const topRated = data.sort((a, b) => b.rating - a.rating).slice(0, 10);
       let topSold = data.sort((a, b) => b.sold - a.sold).slice(0, 10);
   

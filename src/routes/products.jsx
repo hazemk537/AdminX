@@ -1,13 +1,9 @@
-import React, { Suspense } from "react";
-import ProductTable from "../ProductTable.jsx";
-import { Spin } from "antd";
+import ProductTable from "../components/ProductTable.jsx";
 
 function Products() {
   return (
 
-    // <Suspense falling={<Spin/>}>
       <ProductTable />
-      // </Suspense>
       
   );
 }

@@ -1,12 +1,12 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect,  useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
-import arEG from 'antd/locale/ar_EG';
+import Spinner from "./Spinner";
+
 import { useTranslation } from 'react-i18next';
 require('polyfill-object.fromentries');
-
 let toMemo
 function handleData(product){
 return (
@@ -42,16 +42,6 @@ const ProductTable = () => {
 
     
   }
-const url = 'https://alrayademo-back.appssquare.com/api/admin/areas';
-const skip = 0; // set the skip parameter to 0
-const offset = 10; // set the offset parameter to 10
-const q = 'example'; // set the q parameter to 'example'
-
-const queryParams = new URLSearchParams({
-  skip: skip,
-  offset: offset,
-  q: q
-});
 
 
   useEffect(() => {
@@ -311,7 +301,7 @@ const queryParams = new URLSearchParams({
 //load once data is available
 //use react States no 
 //TODO  not works return (productsWithSold && <Table columns={columns} dataSource={translationReady } /> )
-
-  return (productsWithSold && <Table columns={columns} dataSource={productsWithSold } /> )
+if (!productsWithSold) return <Spinner/>
+  return (<Table style={{marginTop:"20px"}}columns={columns} dataSource={productsWithSold } pagination={{pageSize:6}} /> )
 };
 export default ProductTable

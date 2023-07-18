@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -16,14 +16,11 @@ import {
   EditOutlined,
   
 } from "@ant-design/icons";
-import { Link, json } from "react-router-dom";
-import { EVForm } from "../EVform";
+import { EVForm } from "../components/EVform";
+import Spinner from "../components/Spinner";
 
- function StyleIssue(){
-  let element = document.querySelector('.ant-modal-root');
-                element.style.display = 'block';
- }
-export function App() {
+ 
+export function EmployeeTable() {
   const token = JSON.parse(localStorage.getItem("token"));
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
@@ -179,10 +176,11 @@ export function App() {
       .then((response) => response.json())
       .then((data) => {setData(data.data)})
       .catch((error) => console.error(error));
-  }, [reFetchFlag]);
 
+
+  }, [reFetchFlag]);
+if (!data) return <Spinner/>
   return (
-    data && (
       <div className="employee-table">
         <Button  onClick={() => setAddModalopen(1)}>
           {" "}
@@ -265,8 +263,7 @@ export function App() {
 
         </Modal>
       </div>
-    )
   );
 }
 
-export default App;
+export default EmployeeTable;

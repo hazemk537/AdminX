@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   InfoCircleOutlined,
@@ -9,7 +8,6 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { Switch } from "antd";
 
 export default function Root() {
   const { t } = useTranslation();

@@ -1,6 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table, Tag } from 'antd';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Spinner from "./Spinner";
 import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 //access admin or ordinary and modify access 
@@ -26,6 +27,7 @@ const UserTable = () => {
         });
         throw errorResponse;
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // const cachedUsers=useMemo(() => usersTemp, []); works 
   
@@ -208,10 +210,13 @@ const UserTable = () => {
     },
 
   ];
+
+  if (!usersTemp) return <Spinner/>
+
   return<> 
   {/* <Button onClick={()=>{setFlag(!flag)}}>Reload Data</Button> */}
   
-  <Table columns={columns} dataSource={usersTemp} />
+  <Table style={{marginTop:"20px"}} columns={columns} pagination={{pageSize:6}} dataSource={usersTemp} />
   </>
 };
 export default UserTable;

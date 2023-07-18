@@ -1,16 +1,16 @@
 import { Alert, Button, Checkbox, Form, Input } from "antd";
 import {LoadingOutlined} from '@ant-design/icons'
-import { use } from "i18next";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
+  // eslint-disable-next-line no-unused-vars
   const [formData, setFormData] = useState({email:"hr@gmail.com",password:"123456789",remember:true});
+  // eslint-disable-next-line no-unused-vars
   const [rememberPassword, setRememberPassword] = useState(true);
   const [isReceive,setRecived]=useState(false)
-  const [isLoggin,setLogin]=useState(false)
   const [isRemember,setRemember]=useState(true)
 
   const navigate = useNavigate();
@@ -18,11 +18,10 @@ export default function Login() {
   const x = JSON.parse(localStorage.getItem("rtl"));
   useEffect(() => {
     x ? i18n.changeLanguage("ar") : i18n.changeLanguage("en");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCheckboxChange = (event) => {
-    setRememberPassword(event.target.checked);
-  };
+  
   function successLogin(data){
     // setLogin(true);
     if (isRemember){

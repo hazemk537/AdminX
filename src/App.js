@@ -1,19 +1,15 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import * as ReactDOM from "react-dom";
+import {  createBrowserRouter } from "react-router-dom";
 import React from "react";
 import ErrorPage from "./routes/errorPage";
 import Root from "./routes/root";
 import AllProducts from "./routes/AllProducts";
 import Products from "./routes/products";
 import Users from "./routes/users";
-import Category from "./Category";
+import Category from "./components/Category";
 import Login from "./routes/Login";
 import Admin from "./routes/Admin";
-import AuthElement from "./AuthElement";
-import Protected from "./Protected";
+import Protected from "./components/Protected";
 import EmployeeTable from "./routes/EmployeeTable";
-import EditEmployee from "./routes/EditEmployee";
-import ShowEmployee from "./routes/ShowEmployee";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +26,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Products /> },
 
       {
-        path: "summary/products",
+        path: "summary/allProducts",
         element: <AllProducts />,
       },
       {

@@ -104,6 +104,7 @@ else {
        initialValues={data}
       >
     {  
+            // eslint-disable-next-line array-callback-return
             Object.keys(data).map((key) => {
                 if ( key=== "name_ar"||key === "name_en" )                
                 return (

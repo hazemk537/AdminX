@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import {  Button, DatePicker, Layout, Menu , Space, Switch, theme} from "antd";
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React, { useLayoutEffect, useState } from "react";
+import {  Button,Layout, Menu ,  Switch, theme} from "antd";
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
 const { Header, Content, Sider } = Layout;
@@ -8,11 +8,15 @@ const { Header, Content, Sider } = Layout;
 
 
 const Admin = () => {
+  let location = useLocation();
+
 
   const navigate=useNavigate()
   const {t,i18n}=useTranslation()
+  // eslint-disable-next-line no-unused-vars
   const [lng,setLng]=useState("en")
   const [rtl,setRtl]=useState(0)
+   const lastPart = location.pathname.split("/").pop();
 
   
 
@@ -24,6 +28,7 @@ const Admin = () => {
   setRtl(x)
 
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   
 let categories=[
@@ -49,33 +54,32 @@ let categories=[
   "lighting")
 ]
 
-const baseKey=categories.length
 
 const items2 = [
   {
-    key: baseKey+1,
+    key: "summary",
     label: <Link to="/admin/summary">{t("summary")}</Link>,
     children: [
-      { key: baseKey+2,label: <Link to="/admin/summary/products">{t("allProducts")}</Link> },
+      { key: "allProducts",label: <Link to="/admin/summary/allProducts">{t("allProducts")}</Link> },
       {
         label: t("perCategory"),
-        children: categories.map((item,index) => ({
-          key:index+3,
+        children: categories.map((item) => ({
+          key: item, 
           label: <Link to={`/admin/summary/category/${item}`}>{item}</Link>,
-        })),
+        })),//to git rid of repeat keys problem
       },
     ],
   },
   {
-    key: baseKey+4,
+    key: "products",
     label: <Link to="/admin/products">{t("products")}</Link>,
   },
   {
-    key: baseKey+5,
+    key: "users",
     label: <Link to="/admin/users">{t("users")}</Link>,
   },
   {
-    key: baseKey+6,
+    key: "employee",
     label: <Link to="/admin/employee">{t("employee")}</Link>,
   },
 
@@ -89,8 +93,8 @@ const items2 = [
   
   
   }
+  // eslint-disable-next-line no-empty-pattern
   const {
-    token: { colorBgContainer }
   } = theme.useToken();
 
 
@@ -124,8 +128,8 @@ const items2 = [
         >
 
           <Menu
-          defaultOpenKeys={[`${baseKey+1}`]}
-          defaultSelectedKeys={[`${baseKey+4}`]}
+          defaultOpenKeys={["summary"]}
+          defaultSelectedKeys={[ `${lastPart}`]}
           theme="dark"
           mode="inline"
           items={items2}

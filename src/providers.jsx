@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import {  RouterProvider } from 'react-router-dom';
 import { router } from './App';
 // import Protected from './Protected';

@@ -3,7 +3,7 @@ import { Bullet, Column } from "@ant-design/plots";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tag } from "antd";
-import arTranslations from "./locales/ar.json";
+import arTranslations from "../locales/ar.json";
 
 function compareStrs(s,t){
   let count = 0;
@@ -67,6 +67,7 @@ function Category() {
       setTopRated(data.topRated);
       setTopSold(data.topSold);
     }); //TODO revise hooks uses
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catid]); //depend on route parameters to run useeffect after first mount to Category component
 
   const Ratingconfig = {

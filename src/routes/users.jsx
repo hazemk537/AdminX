@@ -1,15 +1,11 @@
-import { Suspense } from 'react';
-import UserTable from '../UserTable';
-import { Spin } from 'antd';
+import UserTable from '../components/UserTable';
 
 
 function Users() {
     
         return (
             <>
-            <Suspense falling={<Spin/>}>
             <UserTable/>
-            </Suspense>
             </>
   )
 }
