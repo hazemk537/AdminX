@@ -18,6 +18,8 @@ import {
 } from "@ant-design/icons";
 import {EVForm} from "../components/EVform";
 import Spinner from "../components/Spinner";
+import { useDispatch, useSelector } from "react-redux";
+import { ToggleDisplay } from "../EditSlice";
 
  
 export function EmployeeTable() {
@@ -26,9 +28,11 @@ export function EmployeeTable() {
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
   const [ViewModalopen,setViewModalOpen]=useState(0)
-  const [EditModelOpen,setEditModelOpen]=useState(0)
   const [EVData,setEVData]=useState(null)//element is null async error
   const [reFetchFlag,setReFetchFlag]=useState(0)
+  const EditModelOpen = useSelector((state) => state.EditModelOpen.toggleDisplay)
+  const dispatch = useDispatch()
+
   const confirm = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -131,7 +135,7 @@ export function EmployeeTable() {
             <Button danger>Delete</Button>
           </Popconfirm>
           <EyeOutlined onClick={()=>{setViewModalOpen(1);EditViewData(record.id);}}/>
-          <EditOutlined onClick={()=>{setEditModelOpen(1) ;EditData(record.id)}} />
+          <EditOutlined onClick={()=>{dispatch(ToggleDisplay());console.log(EditModelOpen) ;EditData(record.id)}} />
         </Space> //element null problem
       ),
     },
@@ -167,6 +171,7 @@ export function EmployeeTable() {
     
   }
   // NOTE console.log("here") 2times
+  const PutFlag = useSelector((state) => state.EditModelOpen)
 
   useEffect(() => {
       // NOTE console.log("here") 1times
@@ -186,7 +191,7 @@ export function EmployeeTable() {
 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reFetchFlag]);
+  }, [reFetchFlag,PutFlag]);
 if (!data) return <Spinner/>
   return (
       <div className="employee-table">
@@ -265,7 +270,7 @@ if (!data) return <Spinner/>
         {EVData && <EVForm data={EVData}  type="view"/>}
         </Modal>
         {/* NOTE model not excutes until flag is open */}
-        <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
+        <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{dispatch(ToggleDisplay()) }} footer={null}>
          
                  {EVData && <EVForm data={EVData} type="edit"/>} 
 

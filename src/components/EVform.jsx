@@ -1,5 +1,7 @@
 import { Button, Form, Input } from "antd"
 import {  useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToggleDisplay, ToggleEditModelOpen } from "../EditSlice";
 
  export const EVForm= ({data,type}) => {
   
@@ -8,6 +10,9 @@ import {  useEffect, useState } from "react";
  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const [form] = Form.useForm();
+  const EditModelOpen = useSelector((state) => state.EditModelOpen.value)
+  const dispatch = useDispatch()
+  const toggleDisplay = useSelector((state) => state.EditModelOpen.toggleDisplay)
 
 
   function handlePUT(values){
@@ -25,14 +30,20 @@ import {  useEffect, useState } from "react";
     .then((jsonData)=>console.log(jsonData))//TODO edit only effected
     .catch((err)=>{console.log(err)})
     
-    // SHOULD REDUX change vlag to refresh ! no way no local storage
+    // NOTE ODO SHOULD REDUX change vlag to refresh ! no way no local storage
+        // NOTE ODO SHOULD REDUX change icon edit flag canot make it hidden 
+    //NOTE kill without open property NO REDUX
+  
     
-    //kill without open property NO REDUX
-    let element = document.querySelector('.ant-modal-root');
-    element.style.visibility='hidden'
+    dispatch(ToggleEditModelOpen())
+    dispatch(ToggleDisplay())
     
     
+
+
+    console.log(EditModelOpen)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setDatas(data);
     form.setFieldsValue(datas);
