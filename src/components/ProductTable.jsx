@@ -32,7 +32,7 @@ const ProductTable = () => {
   function handleTranslation(obj){
 
     return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => {  ; return ([
+      Object.entries(obj).map(([key, value]) => {  return ([
         
 
         t(key), 
@@ -76,6 +76,7 @@ const ProductTable = () => {
     .then(jsonData => {  
       toMemo=jsonData.products.map(handleData)
 
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       translationReady=toMemo.map(handleTranslation)
       localStorage.setItem('productsWithSold',JSON.stringify(translationReady)) 
        setproductsWithSold(translationReady)

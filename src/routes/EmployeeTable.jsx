@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, {  useEffect,  useState } from "react";
 import {
   Button,
   Form,
@@ -16,7 +16,7 @@ import {
   EditOutlined,
   
 } from "@ant-design/icons";
-import { EVForm } from "../components/EVform";
+import {EVForm} from "../components/EVform";
 import Spinner from "../components/Spinner";
 
  
@@ -60,6 +60,7 @@ export function EmployeeTable() {
       Method:'GET',
       "Content-Type": "application/json",
     }).then((response)=>response.json()).then((jsonData)=>{setEVData(jsonData.data);})
+    //NOte when set it  rerender again
 
 
     
@@ -69,7 +70,7 @@ export function EmployeeTable() {
 
     const Item=data.filter((item)=>item.id===key)
     setEVData(Item[0])//i need only the first item caz it returns array
-    
+    //NOte when set it donot rerender again
 
 
 
@@ -157,13 +158,17 @@ export function EmployeeTable() {
 
     setAddModalopen(0);
   }
-
+ 
   function habdleAddCancel(){
     setAddModalopen(0)
 
     
   }
+  // NOTE console.log("here") 2times
+
   useEffect(() => {
+      // NOTE console.log("here") 1times
+
     fetch("https://alrayademo-back.appssquare.com/api/admin/job-titles", {
       method: "GET",
       headers: {
@@ -178,6 +183,7 @@ export function EmployeeTable() {
       .catch((error) => console.error(error));
 
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reFetchFlag]);
 if (!data) return <Spinner/>
   return (
@@ -256,6 +262,7 @@ if (!data) return <Spinner/>
         <Modal title="View More Data" open={ViewModalopen} onCancel = {()=>setViewModalOpen(0)} footer={null}>
         {EVData && <EVForm data={EVData} type="view"/>}
         </Modal>
+        {/* NOTE model not excutes until flag is open */}
         <Modal title="Edit Employee Data" open={EditModelOpen} onCancel = {()=>{setEditModelOpen(0)}} footer={null}>
          
                  {EVData && <EVForm data={EVData} type="edit"/>} 

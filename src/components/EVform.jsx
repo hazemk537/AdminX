@@ -1,4 +1,5 @@
 import { Button, Form, Input } from "antd"
+import {  useEffect, useState } from "react";
 
 function handlePUT(values){
 const token=JSON.parse(localStorage.getItem("token"))
@@ -24,7 +25,14 @@ element.style.visibility='hidden'
 
 
 }
-export const EVForm= ({data,type}) => {
+ export const EVForm= ({data,type}) => {
+  
+  console.log(data)// TODO when evform called again with new data it donot change
+  const [datas,setDatas]=useState(data)
+ 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(()=> setDatas(data))//TODO on every render update with new value
+
   if (type==="view") 
   { return (
         
@@ -40,7 +48,7 @@ export const EVForm= ({data,type}) => {
       maxWidth: 600,
     }}
     autoComplete="off"
-    initialValues={data}
+    initialValues={datas}
    >
  {  
          Object.keys(data).map((key) => {
@@ -101,7 +109,7 @@ else {
          maxWidth: 600,
        }}
        autoComplete="off"
-       initialValues={data}
+       initialValues={datas}
       >
     {  
             // eslint-disable-next-line array-callback-return
@@ -111,7 +119,7 @@ else {
 
 
       <Form.Item
-      value={data.key}//TODO vs intials
+      //TODO vs intials
        // should be distinct key not simply name,department_id...
        key={"edit"+ key} 
         label={key.toUpperCase().replace('_', ' ')}
@@ -148,3 +156,4 @@ else {
 )}
     </Form> 
 )}}
+ //NOTE  prevent the second render but will not change when data change
