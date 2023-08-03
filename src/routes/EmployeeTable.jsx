@@ -194,7 +194,7 @@ export function EmployeeTable() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reFetchFlag,PutFlag]);
-if (!data) return <Spinner/>
+if (!data) return <Spinner type="employee"/>
   return (
       <div className="employee-table">
         <Button  onClick={() => setAddModalopen(1)}>
