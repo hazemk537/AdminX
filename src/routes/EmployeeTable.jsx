@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 export function EmployeeTable() {
 
   const token = JSON.parse(localStorage.getItem("token"));
+  // eslint-disable-next-line no-unused-vars
   const [t,i11n]=useTranslation()
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
