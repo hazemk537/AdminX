@@ -131,7 +131,7 @@ export default function Login() {
           <Button type="primary"  htmlType="submit">
             Submit
           </Button>
-          <Button style={{}} onClick={()=> {setTimeout( navigate("/admin",{replace:true}),10000)}} >HACK </Button>
+          <Button style={{}} onClick={()=> {localStorage.setItem("token",JSON.stringify(1));setTimeout( navigate("/admin",{replace:true}),10000)}} >HACK </Button>
 
           
         </Form.Item>
