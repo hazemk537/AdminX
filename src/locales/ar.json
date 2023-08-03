@@ -1,5 +1,11 @@
 {
     "about": "حول",
+    "employees":"الموظفون",
+    "name_ar":"الاسم بالعربي"
+  ,"name_en":"الاسم بالانجليزي",
+  "department_name":"اسم القسم",
+  "department_id":"رقم القسم"
+,
     "features": "الميزات",
     "download": " حمل تطبيقى الاندرويد الخاص بنا  ",
     "facebook": "فيسبوك",

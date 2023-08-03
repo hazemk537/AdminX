@@ -80,7 +80,7 @@ const items2 = [
   },
   {
     key: "employee",
-    label: <Link to="/admin/employee">{t("employee")}</Link>,
+    label: <Link to="/admin/employee">{t("employees")}</Link>,
   },
 
 

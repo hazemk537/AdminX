@@ -60,7 +60,13 @@
   "images":"Images",
   "thumbnail":"Thumbnail",
   "discountPercentage":"DiscountPercentage",
-  "description":"Description"
+  "description":"Description",
+  "employees":"Emplyees",
+  "name_ar":"Name_Ar"
+  ,"name_en":"Name_En",
+  "department_name":"Department_Name",
+  "department_id":"Department_ID"
+
 
 
 

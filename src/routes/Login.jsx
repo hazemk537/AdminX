@@ -57,8 +57,12 @@ export default function Login() {
   }
   
   return (
+    <>
+          <Alert message="IF Sys Not let you  login in. so it is an API issue ,plz, click Hack Btn   " type="info"/>
+
     <div className="login-form" style={{ direction: `${x ? "rtl" : "ltr"}` }}>
       <div className="alerts">
+
       <Alert message={`${t("email")}:  hr@gmail.com `} type="info" showIcon />
       <Alert message={`${t("password")}: 123456789 `} type="info" showIcon />
       {isReceive && <Alert type="info"   message="Parsing Response ... "  showIcon icon={<LoadingOutlined/>}/>}
@@ -127,11 +131,18 @@ export default function Login() {
           <Button type="primary"  htmlType="submit">
             Submit
           </Button>
+          <Button style={{}} onClick={()=> {setTimeout( navigate("/admin",{replace:true}),10000)}} >HACK </Button>
+
+          
         </Form.Item>
       </Form>
 
       {/* TODO whyif isloggin =0 it will mount 0 and if 1 it will mount the alert */}
     
     </div>
+
+         
+    </>
+
   );
 }

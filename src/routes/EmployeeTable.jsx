@@ -20,11 +20,13 @@ import {
 import {EVForm} from "../components/EVform";
 import Spinner from "../components/Spinner";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
  
 export function EmployeeTable() {
 
   const token = JSON.parse(localStorage.getItem("token"));
+  const [t,i11n]=useTranslation()
   const [data, setData] = useState(null);
   const [AddModalopen, setAddModalopen] = useState(0);
   const [ViewModalopen,setViewModalOpen]=useState(0)
@@ -86,17 +88,17 @@ export function EmployeeTable() {
   };
   const columns = [
     {
-      title: "name_ar",
+      title: t("name_ar"),
       dataIndex: "name_ar",
       key: "name_ar",
     },
     {
-      title: "name_en",
+      title: t("name_en"),
       dataIndex: "name_en",
       key: "name_en",
     },
     {
-      title: "id",
+      title: t("id"),
       dataIndex: "id",
       key: "id",
     },
