@@ -3,9 +3,11 @@ import {LoadingOutlined} from '@ant-design/icons'
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
+  
   // eslint-disable-next-line no-unused-vars
   const [formData, setFormData] = useState({email:"hr@gmail.com",password:"123456789",remember:true});
   // eslint-disable-next-line no-unused-vars
@@ -14,6 +16,8 @@ export default function Login() {
   const [isRemember,setRemember]=useState(true)
 
   const navigate = useNavigate();
+  const dispatch=useDispatch()
+
   //remebmber lang from last session
   const x = JSON.parse(localStorage.getItem("rtl"));
   useEffect(() => {
@@ -131,7 +135,7 @@ export default function Login() {
           <Button type="primary"  htmlType="submit">
             Submit
           </Button>
-          <Button style={{}} onClick={()=> {localStorage.setItem("token",JSON.stringify(1));setTimeout( navigate("/admin",{replace:true}),10000)}} >HACK </Button>
+          <Button style={{}} onClick={()=> {dispatch({type:"set"});localStorage.setItem("token",JSON.stringify(1));setTimeout( navigate("/admin",{replace:true}),10000)}} >HACK </Button>
 
           
         </Form.Item>
