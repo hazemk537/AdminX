@@ -3,12 +3,13 @@ import { Button, Input, Space, Table, Tag } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import Spinner from "./Spinner";
 import Highlighter from 'react-highlight-words';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 //access admin or ordinary and modify access 
 //download data to use it locally
-let usersTemp
+
 const UserTable = () => {
       const [flag,setFlag]=useState(0)
+      const [usersTemp,setUsersTemp]=useState()
 
 //TODO i canot rerender component on flag change btn click (if i remove memoization)
   useEffect(() => {
@@ -16,10 +17,10 @@ const UserTable = () => {
     fetch('https://dummyjson.com/users')
       .then((response) => response.json())
       .then((data) => {
-         usersTemp = data.users.map((item) => ({
+         setUsersTemp( data.users.map((item) => ({
           ...item,
           tags:item.username ==='atuny0'?['Admin']:['User']
-        }));setFlag(!flag)
+        })));setFlag(!flag)
       })
       .catch((error) => {
         const errorResponse = new Response(`Failed to fetch customer data: ${error.message}`, {
@@ -35,6 +36,16 @@ const UserTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const [t]=useTranslation()
+  function deleteAction(ID){
+    console.log(usersTemp)
+    
+    let filtered=usersTemp.filter((item)=>  item.id!==ID)
+    setUsersTemp(filtered)
+  
+  
+  
+  }
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -206,7 +217,13 @@ const UserTable = () => {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: () => <Link>Delete</Link>,// TODO call delete api using post 
+      render: (_,record) =>{ return (<Button
+      onClick={() => {deleteAction(record.id)
+
+      }}
+    >
+      {t("delete")}
+    </Button>)}// TODO call delete api using post 
     },
 
   ];

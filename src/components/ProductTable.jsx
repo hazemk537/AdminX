@@ -1,102 +1,89 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import { useEffect,  useRef, useState } from 'react';
-import Highlighter from 'react-highlight-words';
-import { Link } from 'react-router-dom';
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Table } from "antd";
+import { useEffect, useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
 import Spinner from "./Spinner";
 
-import { useTranslation } from 'react-i18next';
-require('polyfill-object.fromentries');
-let toMemo
-function handleData(product){
-return (
-  {
+import { useTranslation } from "react-i18next";
+require("polyfill-object.fromentries");
+let toMemo;
+
+function handleData(product) {
+  return {
     ...product,
-    sold: Math.floor(Math.random() * 99991) + 10 // generates a random number between 10 and 100000
-    ,target:40
-    ,threshold:10,
-    max:100
-    ,ranges: [product.threshold, product.max]
-    ,measures: [product.stock]
-    
-  }
-
-
-)
+    sold: Math.floor(Math.random() * 99991) + 10, // generates a random number between 10 and 100000
+    target: 40,
+    threshold: 10,
+    max: 100,
+    ranges: [product.threshold, product.max],
+    measures: [product.stock],
+  };
 }
 
 const ProductTable = () => {
-  const {t}=useTranslation()
-  const [productsWithSold,setproductsWithSold]=useState()
-  let translationReady
-  function handleTranslation(obj){
-
+  const { t } = useTranslation();
+  const [productsWithSold, setproductsWithSold] = useState();
+  let translationReady;
+  function handleTranslation(obj) {
     return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => {  return ([
-        
-
-        t(key), 
-        value
-      ])   
-    }))
-
-    
+      Object.entries(obj).map(([key, value]) => {
+        return [t(key), value];
+      })
+    );
   }
 
-
   useEffect(() => {
-    
-      
-  
-      const token = JSON.parse(localStorage.getItem("token"))
-  
-      fetch('https://alrayademo-back.appssquare.com/api/admin/areas?skip=1&offset=1&q=ea', {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    fetch(
+      "https://alrayademo-back.appssquare.com/api/admin/areas?skip=1&offset=1&q=ea",
+      {
         headers: {
-          'Accept': 'application/json',
-    'X-Language': 'en',
-          "Authorization": `Bearer ${token}`,
-
-        }
+          Accept: "application/json",
+          "X-Language": "en",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
       })
-        .then((response) => response.json())
-        .then((data) => {console.log(data)
-          
-        })
-        .catch((error) => {console.log(error)
-          
-        });
-   
-    
-  
-  
+      .catch((error) => {
+        console.log(error);
+      });
 
+    fetch("https://dummyjson.com/products?limit=100")
+      .then((res) => res.json())
+      .then((jsonData) => {
+        toMemo = jsonData.products.map(handleData);
 
-    fetch('https://dummyjson.com/products?limit=100')
-    .then(res => res.json())
-    .then(jsonData => {  
-      toMemo=jsonData.products.map(handleData)
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      translationReady=toMemo.map(handleTranslation)
-      localStorage.setItem('productsWithSold',JSON.stringify(translationReady)) 
-       setproductsWithSold(translationReady)
-    }
-      )
-    .catch((error) => {
-        const errorResponse = new Response(`Failed to fetch Products data: ${error.message}`, {
-          status: 400,
-        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        translationReady = toMemo.map(handleTranslation);
+        localStorage.setItem(
+          "productsWithSold",
+          JSON.stringify(translationReady)
+        );
+        setproductsWithSold(translationReady);
+      })
+      .catch((error) => {
+        const errorResponse = new Response(
+          `Failed to fetch Products data: ${error.message}`,
+          {
+            status: 400,
+          }
+        );
         throw errorResponse;
       });
   }, []);
 
- // todo try to make the array not changes donot work
+  // todo try to make the array not changes donot work
   // const memoizationHack=useMemo((()=>returnFakeState(productsWithSold),[productsWithSold]))
-  // 
-  // TODO const cached=useMemo(()=>toMemo,[]) not work 
+  //
+  // TODO const cached=useMemo(()=>toMemo,[]) not work
 
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -105,10 +92,25 @@ const ProductTable = () => {
   };
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
   };
+  function deleteAction(ID){
+    let id=t("id")
+    let filtered=productsWithSold.filter((item)=>  item[id]!==ID)
+    setproductsWithSold(filtered)
+  
+  
+  
+  }
+  
   const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
       <div
         style={{
           padding: 8,
@@ -119,11 +121,13 @@ const ProductTable = () => {
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
@@ -133,7 +137,7 @@ const ProductTable = () => {
             icon={<SearchOutlined />}
             size="small"
             style={{
-              width: 90,//Todo custom your chart depend on your given table
+              width: 90, //Todo custom your chart depend on your given table
             }}
           >
             Search
@@ -175,7 +179,7 @@ const ProductTable = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1677ff' : undefined,
+          color: filtered ? "#1677ff" : undefined,
         }}
       />
     ),
@@ -190,12 +194,12 @@ const ProductTable = () => {
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{
-            backgroundColor: '#ffc069',
+            backgroundColor: "#ffc069",
             padding: 0,
           }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
@@ -204,105 +208,116 @@ const ProductTable = () => {
 
   const columns = [
     {
-      title:  t('id'),
-      dataIndex: t('id'),
-      key: t('id'),
-      width: '10%',
-      ...getColumnSearchProps(t('id')),
+      title: t("id"),
+      dataIndex: t("id"),
+      key: t("id"),
+      width: "10%",
+      ...getColumnSearchProps(t("id")),
     },
     {
-      title: t('title'),
-      dataIndex: t('title'),
-      key: t('title'),
-      width: '20%',
-      ...getColumnSearchProps(t('title')),
-    },
-   
-    {
-      title: t('price'),
-      dataIndex: t('price'),
-      key: t('price'),
-      width: '10%',
-      ...getColumnSearchProps(t('price')),
-    },
-    {
-      title: t('rating'),/// statistics
-      dataIndex: t('rating'),
-      key: t('rating'),
-      width: '10%',
-      ...getColumnSearchProps(t('rating')),
-    },
-    {
-      title: t('stock'),//stock low levels
-      dataIndex: t('stock'),
-      key: t('stock'),
-      width: '10%',
-      ...getColumnSearchProps(t('stock')),
-    },
-    {
-      title:t('sold'),
-      dataIndex: t('sold'),
-      key: t('sold'),
-      width: '10%',
-      ...getColumnSearchProps(t('sold')),
-      
-    },
-    {
-      title: t('brand'),
-      dataIndex: t('brand'),
-      key: t('brand'),
-      width: '15%',
-      ...getColumnSearchProps(t('brand')),
-    },{
-      title: t('threshold'),
-      dataIndex: t('threshold'),
-      key: t('threshold'),
-      width: '15%',
-      ...getColumnSearchProps(t('threshold')),
-    },{
-      title: t('max'),
-      dataIndex: t('max'),
-      key: t('max'),
-      width: '15%',
-      ...getColumnSearchProps(t('max')),
-    },{
-      title: t('target'),
-      dataIndex: t('target'),
-      key: t('target'),
-      width: '15%',
-      ...getColumnSearchProps(t('target')),
+      title: t("title"),
+      dataIndex: t("title"),
+      key: t("title"),
+      width: "20%",
+      ...getColumnSearchProps(t("title")),
     },
 
     {
-      title: t('category'),//statistic upon categories
-      dataIndex: t('category'),
-      key: t('category'),
-      width: '15%',
-      ...getColumnSearchProps(t('category')),
+      title: t("price"),
+      dataIndex: t("price"),
+      key: t("price"),
+      width: "10%",
+      ...getColumnSearchProps(t("price")),
     },
     {
-      title: t('action'),
-      dataIndex: '',
-      key: t('action'),
-      render: () => <>
-       <Link>{t("delete")}</Link>
-
-     
-      
-
-      
-      </>,// TODO Add and delete api using forms 
+      title: t("rating"), /// statistics
+      dataIndex: t("rating"),
+      key: t("rating"),
+      width: "10%",
+      ...getColumnSearchProps(t("rating")),
+    },
+    {
+      title: t("stock"), //stock low levels
+      dataIndex: t("stock"),
+      key: t("stock"),
+      width: "10%",
+      ...getColumnSearchProps(t("stock")),
+    },
+    {
+      title: t("sold"),
+      dataIndex: t("sold"),
+      key: t("sold"),
+      width: "10%",
+      ...getColumnSearchProps(t("sold")),
+    },
+    {
+      title: t("brand"),
+      dataIndex: t("brand"),
+      key: t("brand"),
+      width: "15%",
+      ...getColumnSearchProps(t("brand")),
+    },
+    {
+      title: t("threshold"),
+      dataIndex: t("threshold"),
+      key: t("threshold"),
+      width: "15%",
+      ...getColumnSearchProps(t("threshold")),
+    },
+    {
+      title: t("max"),
+      dataIndex: t("max"),
+      key: t("max"),
+      width: "15%",
+      ...getColumnSearchProps(t("max")),
+    },
+    {
+      title: t("target"),
+      dataIndex: t("target"),
+      key: t("target"),
+      width: "15%",
+      ...getColumnSearchProps(t("target")),
     },
 
+    {
+      title: t("category"), //statistic upon categories
+      dataIndex: t("category"),
+      key: t("category"),
+      width: "15%",
+      ...getColumnSearchProps(t("category")),
+    },
+    {
+      title: t("action"),
+      dataIndex: "",
+      key: t("action"),
+      render: (_, record) => (
+        <>
+          <Button
+            onClick={() => {let id=t("id");deleteAction(record[id])
+
+            }}
+          >
+            {t("delete")}
+          </Button>
+        </>
+      ), // TODO Add and delete api using forms
+    },
   ];
   //products of solds is array so should memoized to enabe compare by value
   //Todo i donot know  why memoization not work
   //  const memoizedTable=useMemo(()=><Table columns={columns} dataSource={toMemo } />,[toMemo])
   // return memoizedTable;
-//load once data is available
-//use react States no 
-//TODO  not works return (productsWithSold && <Table columns={columns} dataSource={translationReady } /> )
-if (!productsWithSold) return <Spinner/>
-  return (<Table style={{marginTop:"20px"}}columns={columns} dataSource={productsWithSold } pagination={{pageSize:6}} /> )
+  //load once data is available
+  //use react States no
+  //TODO  not works return (productsWithSold && <Table columns={columns} dataSource={translationReady } /> )
+  if (!productsWithSold) return <Spinner />;
+  return (
+    <Table
+      style={{ marginTop: "20px" }}
+      columns={columns}
+      dataSource={productsWithSold}
+      pagination={{ pageSize: 6 }}
+    />
+  );
 };
-export default ProductTable
+export default ProductTable;
