@@ -127,7 +127,6 @@ function Summary() {
     <div>
     <h1>
         {t("highestRatedStat")}
-        {t("inCategory")}{" "}
        
       </h1>
       <Column {...Ratingconfig} />
@@ -136,7 +135,6 @@ function Summary() {
     <div>
         <h1>
           {t("highestSoldStat")}
-          {t("inCategory")}{" "}
           
         </h1>
         <Column {...SoldConfig} />
