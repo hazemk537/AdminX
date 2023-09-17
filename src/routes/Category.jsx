@@ -24,7 +24,7 @@ const brandColor = "#5B8FF9";
 function findKeyByValue(obj, value) {
   return Object.keys(obj).find((key) => obj[key] === value);
 }
-function Category() {
+function CategorySummary() {
   const { t,i18n } = useTranslation();
 
   const [topRated, setTopRated] = useState([]);
@@ -202,4 +202,4 @@ function Category() {
   );
 }
 
-export default Category;
+export default CategorySummary;

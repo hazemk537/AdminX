@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
-export default function Root() {
+export default function HomePage() {
   const { t } = useTranslation();
 
   const navigate = useNavigate();

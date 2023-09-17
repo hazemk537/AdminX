@@ -2,7 +2,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
 import { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 
 import { useTranslation } from "react-i18next";
 require("polyfill-object.fromentries");
@@ -18,6 +18,8 @@ function handleData(product) {
     ranges: [product.threshold, product.max],
     measures: [product.stock],
   };
+
+  
 }
 
 const ProductTable = () => {
@@ -43,6 +45,7 @@ const ProductTable = () => {
           "X-Language": "en",
           Authorization: `Bearer ${token}`,
         },
+
       }
     )
       .then((response) => response.json())
@@ -60,6 +63,7 @@ const ProductTable = () => {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
         translationReady = toMemo.map(handleTranslation);
+        console.log(toMemo)
         localStorage.setItem(
           "productsWithSold",
           JSON.stringify(translationReady)

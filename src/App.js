@@ -1,47 +1,42 @@
 import {  createBrowserRouter } from "react-router-dom";
 import React from "react";
 import ErrorPage from "./routes/errorPage";
-import Root from "./routes/root";
-import AllProducts from "./routes/AllProducts";
-import Products from "./routes/products";
-import Users from "./routes/users";
-import Category from "./components/Category";
 import Login from "./routes/Login";
-import Admin from "./routes/Admin";
 import Protected from "./components/Protected";
 import EmployeeTable from "./routes/EmployeeTable";
+import HomePage from "./routes/HomePage";
+import ProductTable from "./routes/ProductTable";
+import Summary from "./routes/Summary";
+import CategorySummary from "./routes/Category";
+import AdminLayout from './routes/adminLayout'
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <HomePage />,
     errorElement: <ErrorPage />
   }
 ,  { path: "login", element: <Login /> },
 
   {
     path: "admin",
-    element: <Protected> <Admin /> </Protected>,
+    element: <Protected> <AdminLayout/> </Protected>,
     children: [
-      { index: true, element: <Products /> },
+      { index: true, element: <ProductTable /> },
 
       {
         path: "summary/allProducts",
-        element: <AllProducts />,
+        element: <Summary />,
       },
       {
         path: "summary/category/:catid",
-        element: <Category />,
+        element: <CategorySummary />,
       },
       {
         path: "products",
-        element: <Products />,
+        element: <ProductTable/>,
       },
 
-      {
-        path: "users",
-        element: <Users />,
-      },
       {path:"employee",
       element:<EmployeeTable/>
 
