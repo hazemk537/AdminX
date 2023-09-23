@@ -3,7 +3,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 export default function Login() {
   const { t, i18n } = useTranslation();
@@ -33,6 +32,7 @@ export default function Login() {
     if (isRemember) {
       localStorage.setItem("remember", JSON.stringify(1));
     }
+    console.log(data)
     localStorage.setItem("token", JSON.stringify(data.token));
     setTimeout(navigate("/admin", { replace: true }), 10000);
   }
@@ -54,7 +54,9 @@ export default function Login() {
         return response.json();
       })
       .then((jsonData) => {
-        if (jsonData.status === true) {
+
+        if (jsonData.token ) {
+
           successLogin(jsonData);
         }
       })

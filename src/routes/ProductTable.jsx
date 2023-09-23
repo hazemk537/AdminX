@@ -18,8 +18,6 @@ function handleData(product) {
     ranges: [product.threshold, product.max],
     measures: [product.stock],
   };
-
-  
 }
 
 const ProductTable = () => {
@@ -37,38 +35,25 @@ const ProductTable = () => {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
 
-    fetch(
-      "https://alrayademo-back.appssquare.com/api/admin/areas?skip=1&offset=1&q=ea",
-      {
-        headers: {
-          Accept: "application/json",
-          "X-Language": "en",
-          Authorization: `Bearer ${token}`,
-        },
-
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    fetch("https://portfolio-api-xi-ecru.vercel.app/api/product?limit=30")
+    fetch("https://portfolio-api-xi-ecru.vercel.app/api/product/show?limit=30", {
+      headers: {
+        Accept: "application/json",
+        "X-Language": "en",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((jsonData) => {
-        toMemo = jsonData.products.map(handleData);
+        toMemo = jsonData.map(handleData);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
         translationReady = toMemo.map(handleTranslation);
-        console.log(toMemo)
         localStorage.setItem(
           "productsWithSold",
           JSON.stringify(translationReady)
         );
         setproductsWithSold(translationReady);
+        console.log(translationReady)
       })
       .catch((error) => {
         const errorResponse = new Response(
@@ -98,15 +83,12 @@ const ProductTable = () => {
     clearFilters();
     setSearchText("");
   };
-  function deleteAction(ID){
-    let id=t("id")
-    let filtered=productsWithSold.filter((item)=>  item[id]!==ID)
-    setproductsWithSold(filtered)
-  
-  
-  
+  function deleteAction(ID) {
+    let id = t("id");
+    let filtered = productsWithSold.filter((item) => item[id] !== ID);
+    setproductsWithSold(filtered);
   }
-  
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -297,8 +279,9 @@ const ProductTable = () => {
       render: (_, record) => (
         <>
           <Button
-            onClick={() => {let id=t("id");deleteAction(record[id])
-
+            onClick={() => {
+              let id = t("id");
+              deleteAction(record[id]);
             }}
           >
             {t("delete")}
