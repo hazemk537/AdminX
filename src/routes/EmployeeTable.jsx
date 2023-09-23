@@ -38,7 +38,7 @@ export function EmployeeTable() {
   const confirm = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
-    fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${id}`, {
+    fetch(`https://portfolio-api-xi-ecru.vercel.app/api/employee/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ export function EmployeeTable() {
 
   function EditViewData(key){
 
-    fetch(`https://alrayademo-back.appssquare.com/api/admin/job-titles/${key}`,{
+    fetch(`https://portfolio-api-xi-ecru.vercel.app/api/employee/${key}`,{
       headers:{Authorization:`Bearer ${token}`},
       Method:'GET',
       "Content-Type": "application/json",
@@ -146,7 +146,7 @@ export function EmployeeTable() {
  
   
   function handleAddSubmit(values) {
-    fetch("https://alrayademo-back.appssquare.com/api/admin/job-titles", {
+    fetch("https://portfolio-api-xi-ecru.vercel.app/api/employee/show", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -178,7 +178,7 @@ export function EmployeeTable() {
   useEffect(() => {
       // NOTE console.log("here") 1times
 
-    fetch("https://alrayademo-back.appssquare.com/api/admin/job-titles", {
+    fetch(  "https://portfolio-api-xi-ecru.vercel.app/api/employee/show", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -232,7 +232,7 @@ if (!data) return <Spinner type="employee"/>
             </Form.Item>
             <Form.Item
               label="NameAR"
-              name="name_ar"
+              name="name"
               rules={[
                 {
                   required: true,
@@ -243,12 +243,24 @@ if (!data) return <Spinner type="employee"/>
               <Input />
             </Form.Item>
             <Form.Item
-              label="DepartmentID"
-              name="department_id"
+              label="Age"
+              name="age"
               rules={[
                 {
                   required: true,
-                  message: "Please input  Department ID!",
+                  message: "Please input  Your Age!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input  Your Email!",
                 },
               ]}
             >

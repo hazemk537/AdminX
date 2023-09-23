@@ -56,7 +56,7 @@ const ProductTable = () => {
         console.log(error);
       });
 
-    fetch("https://dummyjson.com/products?limit=100")
+    fetch("https://portfolio-api-xi-ecru.vercel.app/api/product?limit=30")
       .then((res) => res.json())
       .then((jsonData) => {
         toMemo = jsonData.products.map(handleData);
