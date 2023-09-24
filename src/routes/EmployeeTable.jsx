@@ -114,15 +114,19 @@ export function EmployeeTable() {
 
           <EyeOutlined
             onClick={() => {
-              toggleModel("view")
-              setSelectedrow(record._id);
-              ;
+              toggleModel("view");
+             
+              const temp=data.filter((item)=>item._id===record._id)
+              setSelectedrow(temp)
             }}
           />
           <EditOutlined
             onClick={() => {
               toggleModel("edit");
-              setSelectedrow(record._id);
+              //get data by id
+              const temp=data.filter((item)=>item._id===record._id)
+              setSelectedrow(temp)
+
             }}
           />
         </Space> //element null problem
@@ -193,11 +197,11 @@ export function EmployeeTable() {
         <Modal
           CancelText="Cancel"
           ConfirmText="Confirm"
-          onToggle={toggleModel.bind(this, "add")}
-          header="Add CurrNewent Employee"
+          onToggle={toggleModel.bind(this, "new")}
+          header="Add New Employee"
           onSubmit={postHandler}
         >
-          <Form type="add" data={selectedrow}/>
+          <Form type="new" data={selectedrow} />
         </Modal>
       )}
     </div>

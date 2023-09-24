@@ -2,20 +2,22 @@ import { useRef } from "react";
 
 export const Form = (props) => {
   //3 form in one
+  const objectFromArray=props.data.at(0)
   const ageRef = useRef();
   const emailRef = useRef();
   const nameRef = useRef();
-console.log(props.data)
   const mapHandler = (key) => {
+    // console.log(objectFromArray)
     if (key === "age" || key === "email" || key === "name") {
       return (
         <label>
+          {key}:
           <input
-            ref={key + "Ref"}
-            key={props.data[key] + props.data.email}
+            // ref={key + "Ref"}
+            key={objectFromArray[key] + objectFromArray.email}
             type={key === "age" ? "number" : "text"}
             disabled={key === "_id" ? true : false}
-            value={props.type === "new" ? "" : props.data[key]}
+            value={props.type === "new" ? " " : objectFromArray[key]}
           />
         </label>
       );
@@ -25,14 +27,23 @@ console.log(props.data)
     event.preventDefault();
     // console.log(Object.fromKeys(event.target));
     // props.onSubmit(Object.fromKeys(event.target)); //todo
-    console.log(emailRef.current);
+    // console.log(emailRef.current);
     props.onSubmit([ageRef.current, emailRef.current, nameRef.current]);
   };
   return (
     <form onSubmit={submitHandler}>
-      {Object.keys(props.data).map(mapHandler)}
+      {Object.keys(objectFromArray).map(mapHandler)}
 
-      <button type="submit"></button>
     </form>
   );
 };
+
+//  high
+//  - css module, backdrop
+//  - confirm->close,request
+// - cancel ->close
+//- x-->close
+//- delete button
+
+// lower
+//  style dlt btn 
