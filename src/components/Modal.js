@@ -6,7 +6,7 @@ export default function Modal(props) {
        <section className={styles.modal}>
         <header>
           <svg
-            onToggle={props.toggleModel}
+            onClick={props.toggleDisplayHandler}
             class="fill-current text-black"
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -21,11 +21,8 @@ export default function Modal(props) {
         <main>{props.children}</main>
 
         <footer>
-          <button onClick={props.toggleModel} type="">
-            {" "}
-            {props.ConfirmText}
-          </button>
-          <button onClick={props.toggleModel} type="">
+          
+          <button onClick={props.toggleDisplayHandler} type="">
             {props.CancelText}
           </button>
         </footer>

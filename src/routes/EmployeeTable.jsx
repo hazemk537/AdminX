@@ -10,26 +10,30 @@ export function EmployeeTable() {
   const token = JSON.parse(localStorage.getItem("token"));
   // eslint-disable-next-line no-unused-vars
   const [t] = useTranslation();
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [editFormDisplay, setEditFormDisplay] = useState(false);
   const [viewFormDisplay, setViewFormDisplay] = useState(false);
   const [addFormDisplay, setAddFormDisplay] = useState(false);
   const [selectedrow, setSelectedrow] = useState({});
   const [reFetchFlag, setReFetchFlag] = useState(0);
-
+  const [revalidateData, setRevalidateData] = useState(0);
   const deleteElement = (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
-    fetch(`https://portfolio-api-xi-ecru.vercel.app/api/employee/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `https://portfolio-api-xi-ecru.vercel.app/api/employee/delete/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           console.log("Job title deleted successfully");
+          setRevalidateData((old) => !old);
         } else {
           console.error("Error deleting job title");
           return response.json();
@@ -62,7 +66,7 @@ export function EmployeeTable() {
 
   const putHandler = (formData) => {
     const token = JSON.parse(localStorage.getItem("token"));
-
+    // get data from form
     fetch("https://portfolio-api-xi-ecru.vercel.app/api/employee/edit/", {
       //id ?? of the clicked/showen emplyeee
       method: "PUT",
@@ -115,18 +119,17 @@ export function EmployeeTable() {
           <EyeOutlined
             onClick={() => {
               toggleModel("view");
-             
-              const temp=data.filter((item)=>item._id===record._id)
-              setSelectedrow(temp)
+
+              const temp = data.filter((item) => item._id === record._id);
+              setSelectedrow(temp);
             }}
           />
           <EditOutlined
             onClick={() => {
               toggleModel("edit");
               //get data by id
-              const temp=data.filter((item)=>item._id===record._id)
-              setSelectedrow(temp)
-
+              const temp = data.filter((item) => item._id === record._id);
+              setSelectedrow(temp);
             }}
           />
         </Space> //element null problem
@@ -135,9 +138,10 @@ export function EmployeeTable() {
   ];
 
   function toggleModel(type) {
+    // console.log(type)
     if (type === "edit") setEditFormDisplay((old) => !old);
     else if (type === "view") setViewFormDisplay((old) => !old);
-    else if (type === "add") setAddFormDisplay((old) => !old);
+    else if (type === "new") setAddFormDisplay((old) => !old);
   }
 
   // NOTE console.log("here") 2times
@@ -160,8 +164,8 @@ export function EmployeeTable() {
       .catch((error) => console.error(error));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (!data) return <Spinner type="employee" />;
+  }, [revalidateData]);
+  if (!data.length) return <Spinner type="employee" />;
   return (
     <div className="employee-table">
       <Button onClick={toggleModel.bind(this, "add")}>
@@ -172,36 +176,50 @@ export function EmployeeTable() {
       {viewFormDisplay && (
         <Modal
           CancelText="Cancel"
-          ConfirmText="Confirm"
-          onOpen={toggleModel.bind(this, "view")}
-          onClose={toggleModel.bind(this, "view")}
+          confirmText="Confirm"
+          toggleDisplayHandler={toggleModel.bind(this, "view")}
           header="view Current Employee"
           itemData={selectedrow}
         >
-          <Form type="view" data={selectedrow} />
+          <Form
+            
+            type="view"
+            data={selectedrow}
+            collectData
+          />
         </Modal>
       )}{" "}
       {editFormDisplay && (
         <Modal
           CancelText="Cancel"
-          ConfirmText="Confirm"
-          onToggle={toggleModel.bind(this, "edit")}
+          confirmText="Confirm"
+          toggleDisplayHandler={toggleModel.bind(this, "edit")}
           header="Edit Current Employee"
           itemData={selectedrow}
-          onSubmit={putHandler}
+          confirmHandler={putHandler}
         >
-          <Form type="edit" data={selectedrow} />
+          <Form
+            onSubmit={putHandler}
+            confirmText="Submit"
+            type="edit"
+            data={selectedrow}
+          />
         </Modal>
       )}
       {addFormDisplay && (
         <Modal
           CancelText="Cancel"
-          ConfirmText="Confirm"
-          onToggle={toggleModel.bind(this, "new")}
+          confirmText="Confirm"
+          toggleDisplayHandler={toggleModel.bind(this, "new")}
           header="Add New Employee"
-          onSubmit={postHandler}
+          confirmHandler={postHandler}
         >
-          <Form type="new" data={selectedrow} />
+          <Form
+            onSubmit={postHandler}
+            confirmText="Submit"
+            type="new"
+            data={selectedrow}
+          />
         </Modal>
       )}
     </div>
