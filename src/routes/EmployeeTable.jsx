@@ -10,15 +10,16 @@ export function EmployeeTable() {
   const token = JSON.parse(localStorage.getItem("token"));
   // eslint-disable-next-line no-unused-vars
   const [t] = useTranslation();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([{ name: "", email: "", age: "" }]);
   const [editFormDisplay, setEditFormDisplay] = useState(false);
   const [viewFormDisplay, setViewFormDisplay] = useState(false);
   const [addFormDisplay, setAddFormDisplay] = useState(false);
   const [selectedrow, setSelectedrow] = useState({});
-  const [reFetchFlag, setReFetchFlag] = useState(0);
-  const [revalidateData, setRevalidateData] = useState(0);
+  const [selectedrowID, setSelectedrowID] = useState({});
+  const [revalidateData, setRevalidateData] = useState(false);
+  const [isLoading,setisLoading]=useState(false)
   const deleteElement = (id) => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    setisLoading(true)
 
     fetch(
       `https://portfolio-api-xi-ecru.vercel.app/api/employee/delete/${id}`,
@@ -35,17 +36,18 @@ export function EmployeeTable() {
           console.log("Job title deleted successfully");
           setRevalidateData((old) => !old);
         } else {
-          console.error("Error deleting job title");
+          console.log("Error deleting job title");
           return response.json();
         }
       })
-      .then((data) => setData(data.data))
-      .catch((error) => console.error(error));
+      .then((data) => setData(data))
+      .catch((error) => console.log(error));
+    setisLoading(false)
 
-    setReFetchFlag(!reFetchFlag);
   };
   const postHandler = (formData) => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    setisLoading(true)
+
     fetch("https://portfolio-api-xi-ecru.vercel.app/api/employee/new", {
       method: "POST",
       headers: {
@@ -58,35 +60,45 @@ export function EmployeeTable() {
         if (response.ok) {
           console.log("New Emplyee  created successfully");
         } else {
-          console.error("Error creating New Emplyee ");
+          console.log("Error creating New Emplyee ");
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.log(error));
+    setRevalidateData((old) => !old);
+    setisLoading(false)
+
   };
 
   const putHandler = (formData) => {
-    const token = JSON.parse(localStorage.getItem("token"));
     // get data from form
-    fetch("https://portfolio-api-xi-ecru.vercel.app/api/employee/edit/", {
-      //id ?? of the clicked/showen emplyeee
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
+    setisLoading(true)
+
+    fetch(
+      `https://portfolio-api-xi-ecru.vercel.app/api/employee/edit/${selectedrowID}`,
+      {
+        //id ?? of the clicked/showen emplyeee
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           console.log("New Emplyee  edited successfully");
         } else {
-          console.error("Error editing New Emplyee ");
+          console.log("Error editing New Emplyee ");
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.log(error));
     // make the put request
     // in the forms collect data and send to the submit handlers
     // pass close and open functs to the modal
+    setRevalidateData((old) => !old);
+    setisLoading(false)
+
   };
   const columns = [
     {
@@ -130,6 +142,7 @@ export function EmployeeTable() {
               //get data by id
               const temp = data.filter((item) => item._id === record._id);
               setSelectedrow(temp);
+              setSelectedrowID(record._id);
             }}
           />
         </Space> //element null problem
@@ -144,35 +157,52 @@ export function EmployeeTable() {
     else if (type === "new") setAddFormDisplay((old) => !old);
   }
 
-  // NOTE console.log("here") 2times
-  useEffect(() => {
+  // NOTE console.log("here") times
+  useEffect( () => {
     // NOTE console.log("here") 1times
+    const effectFunction=async ()=>{
+      setisLoading(true)
+    try {
+      const response = await fetch(
+        "https://portfolio-api-xi-ecru.vercel.app/api/employee/show",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "X-Language": "en",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const jsonData = await response.json();
+        setData(jsonData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setisLoading(false)
 
-    fetch("https://portfolio-api-xi-ecru.vercel.app/api/employee/show", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-Language": "en",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.error(error));
-
+  }
+  effectFunction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revalidateData]);
-  if (!data.length) return <Spinner type="employee" />;
   return (
     <div className="employee-table">
-      <Button onClick={toggleModel.bind(this, "add")}>
+      { isLoading&& <Spinner type="employee" />}
+      <Button onClick={toggleModel.bind(this, "new")}>
         {" "}
         <UserAddOutlined /> Add New{" "}
       </Button>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 6 }} />
+      {/* note -> table need at least on object element */}
+      {
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={{ pageSize: 6 }}
+        />
+      }{" "}
       {viewFormDisplay && (
         <Modal
           CancelText="Cancel"
@@ -182,7 +212,7 @@ export function EmployeeTable() {
           itemData={selectedrow}
         >
           <Form
-            
+            toggleDisplayHandler={toggleModel.bind(this, "view")}
             type="view"
             data={selectedrow}
             collectData
@@ -199,6 +229,7 @@ export function EmployeeTable() {
           confirmHandler={putHandler}
         >
           <Form
+            toggleDisplayHandler={toggleModel.bind(this, "edit")}
             onSubmit={putHandler}
             confirmText="Submit"
             type="edit"
@@ -215,6 +246,7 @@ export function EmployeeTable() {
           confirmHandler={postHandler}
         >
           <Form
+            toggleDisplayHandler={toggleModel.bind(this, "new")}
             onSubmit={postHandler}
             confirmText="Submit"
             type="new"

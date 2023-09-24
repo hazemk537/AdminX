@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 export const Form = (props) => {
   //3 form in one
-  const objectFromArray = props.data.at(0);
+  const objectFromArray = props.data[0] || {age:"",email:"",name:""}
   const ageRef = useRef();
   const emailRef = useRef();
   const nameRef = useRef();
@@ -31,9 +31,9 @@ export const Form = (props) => {
     // props.onSubmit(Object.fromKeys(event.target)); //todo
     // console.log(emailRef.current);
     props.onSubmit({
-      age: ageRef.current,
-      email: emailRef.current,
-      name: nameRef.current,
+      age: ageRef.current.value,
+      email: emailRef.current.value,
+      name: nameRef.current.value,
     });
     props.toggleDisplayHandler()
 
@@ -46,12 +46,3 @@ export const Form = (props) => {
   );
 };
 
-//  high
-//  - css module, backdrop
-//  - confirm->close,request
-// - cancel ->close
-//- x-->close
-//- delete button
-
-// lower
-//  style dlt btn
