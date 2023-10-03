@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { Button, Layout, Menu, Switch, theme } from "antd";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import styles from '../custom.module.css'
 const { Header, Content, Sider } = Layout;
 
 const AdminLayout = () => {
@@ -11,7 +11,7 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   // eslint-disable-next-line no-unused-vars
-  const [lng, setLng] = useState("en");
+  const [lng, setLng] = useState("en")  ;
   const [rtl, setRtl] = useState(0);
   const lastPart = location.pathname.split("/").pop();
 
@@ -84,17 +84,13 @@ const AdminLayout = () => {
     navigate("/");
   };
   // eslint-disable-next-line no-empty-pattern
-  const {} = theme.useToken();
 
   return (
-    <Layout style={{ direction: `${rtl ? "rtl" : "ltr"}`, padding: 0 }}>
-      <Header
-        style={{
-          display: "flex",
-          padding: 0,
-          alignItems: "center",
-        }}
+    <Layout  style={{ direction: `${rtl ? "rtl" : "ltr"}`, padding: 0 }}>
+      <Header className={styles.LayoutHeader}
+       
       >
+        
         <Button
           style={{
             color: "white",
@@ -113,6 +109,7 @@ const AdminLayout = () => {
             setLng(checked ? "en" : "ar");
             setRtl(checked ? 0 : 1);
             setTimeout(localStorage.setItem("rtl", !rtl), 10);
+
           }}
           checked={i18n.language === "en" ? true : false}
         />
@@ -122,7 +119,6 @@ const AdminLayout = () => {
         <Sider width={200}>
           <Menu
             defaultOpenKeys={["summary"]}
-            defaultSelectedKeys={[`${lastPart}`]}
             theme="dark"
             mode="inline"
             items={items2}

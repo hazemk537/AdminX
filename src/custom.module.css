@@ -12,9 +12,9 @@
     align-items:center;
 }
 .modal {
-    background-color: rgb(241, 240, 250);
+    background-color: rgb(230, 229, 238);
     border-radius:1.5vh;
-    width:50%;
+    width:30%;
     position:absolute;
     color:rgba(0, 0, 0, 0.565)
 
@@ -68,13 +68,13 @@
 
 .modal button{
     margin-bottom: 6%;
-    background-color:  rgb(192, 187, 232);
+    background-color:  rgb(207, 206, 216);
     width: 20%; 
     border-radius: 14%;
 }
 button{
  
-    background-color:  rgb(192, 187, 232);
+    background-color:  rgb(207, 206, 216);
     border-radius: 14%;
 }
 
@@ -110,10 +110,19 @@ span:hover{
 
 
     transform:scalex(105%) ;
-    color:aqua;
+    color:rgb(88, 115, 152);
 
-  
 
+}
+table {
+    margin-top: 10px;
+}
+
+
+.LayoutHeader{
+    display: flex;
+    justify-content:space-evenly !important;
+    align-items:center;
 
 
 }

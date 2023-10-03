@@ -39,8 +39,8 @@ function Summary() {
 
   const Ratingconfig = {
     data: topRated,
-    xField: t("title"),
-    yField: t("rating"),
+    xField: "title",
+    yField: "rating",
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -67,8 +67,8 @@ function Summary() {
   };
   const SoldConfig = {
     data: topSold,
-    xField: t("title"),
-    yField: t("sold"),
+    xField: "title",
+    yField: "sold",
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -95,10 +95,10 @@ function Summary() {
   };
   const Stockconfig = {
     data:topSold,
-    measureField: t('measures'),
-    rangeField: t('ranges'),
-    targetField: t('target'),
-    xField: t('title'),
+    measureField: 'measures',
+    rangeField: 'ranges',
+    targetField: 'target',
+    xField: 'title',
     color: {
       range: ['#FFbcb8', '#FFe0b0', '#bfeec8'],
       measure: '#5B8FF9',

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Carousel, Tag } from "antd";
 import arTranslations from "../locales/ar.json";
 
-function compareStrs(s,t){
+function compareStrs(s, t) {
   let count = 0;
   const minLen = Math.min(s.length, t.length);
   for (let i = 0; i < minLen; i++) {
@@ -25,7 +25,7 @@ function findKeyByValue(obj, value) {
   return Object.keys(obj).find((key) => obj[key] === value);
 }
 function CategorySummary() {
-  const { t,i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [topRated, setTopRated] = useState([]);
   const [topSold, setTopSold] = useState([]);
@@ -38,18 +38,18 @@ function CategorySummary() {
   async function hack() {
     const data = await JSON.parse(localStorage.getItem("productsWithSold"));
     if (data) {
-      
+
       let filtered = data.filter(
         (item) => {
-         
-          if (i18n.language==="ar"){
-            const translatedString = catid
-          const translationKey = findKeyByValue(arTranslations, translatedString);
-          return (compareStrs (item.الفئة ,translationKey.toLowerCase()) <=1);       
 
-        }
-          return (compareStrs (item.Category.toLowerCase() ,catid.toLowerCase()) <= 2);       
-      })
+          if (i18n.language === "ar") {
+            const translatedString = catid
+            const translationKey = findKeyByValue(arTranslations, translatedString);
+            return (compareStrs(item.category, translationKey.toLowerCase()) <= 1);
+
+          }
+          return (compareStrs(item.category.toLowerCase(), catid.toLowerCase()) <= 2);
+        })
 
 
       let topRated = filtered.sort((a, b) => b.Rating - a.Rating).slice(0, 10);
@@ -61,19 +61,19 @@ function CategorySummary() {
   }
 
   useEffect(() => {
-    
+
 
     hack().then((data) => {
       setTopRated(data.topRated);
       setTopSold(data.topSold);
     }); //TODO revise hooks uses
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catid]); //depend on route parameters to run useeffect after first mount to Category component
 
   const Ratingconfig = {
     data: topRated,
-    xField: t("title"),
-    yField: t("rating"),
+    xField: "title",
+    yField: "rating",
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -101,8 +101,8 @@ function CategorySummary() {
 
   const SoldConfig = {
     data: topSold,
-    xField: t("title"),
-    yField: t("sold"),
+    xField: "title",
+    yField: "sold",
     seriesField: "",
     color: ({ type }) => {
       if (type === "10-30分" || type === "30+分") {
@@ -130,10 +130,10 @@ function CategorySummary() {
 
   const Stockconfig = {
     data: topSold,
-    measureField: t("measures"),
-    rangeField: t("ranges"),
-    targetField: t("target"),
-    xField: t("title"),
+    measureField: "measures",
+    rangeField: "ranges",
+    targetField: "target",
+    xField: "title",
     color: {
       range: ["#FFbcb8", "#FFe0b0", "#bfeec8"],
       measure: "#5B8FF9",
@@ -153,52 +153,52 @@ function CategorySummary() {
     yAxis: false,
     // 自定义 legend
   };
- 
+
   return (
-    <div  className="statistics">
+    <div className="statistics">
       <Carousel >
-      <div>
-      <h1>
-          {t("highestRatedStat")}
-          {t("inCategory")}{" "}
-          <Tag bordered={false} color="blue">
-            {" "}
-            {catid}{" "}
-          </Tag>
-        </h1>
-        <Column {...Ratingconfig} />
-      </div>
-      <div>
-      <div>
+        <div>
           <h1>
-            {t("highestSoldStat")}
+            {t("highestRatedStat")}
             {t("inCategory")}{" "}
             <Tag bordered={false} color="blue">
               {" "}
               {catid}{" "}
             </Tag>
           </h1>
-          <Column {...SoldConfig} />
-        </div> 
-        
-      </div>
-      <div>
-        
-      <div>
-          <h1>
-            {t("lowestStockStat")}
-            {t("inCategory")}
-            <Tag bordered={false} color="blue">
-              {" "}
-              {catid}
-            </Tag>
-          </h1>
-          <Bullet {...Stockconfig} />;
+          <Column {...Ratingconfig} />
         </div>
-      </div>
-    </Carousel>
-        
-            </div>
+        <div>
+          <div>
+            <h1>
+              {t("highestSoldStat")}
+              {t("inCategory")}{" "}
+              <Tag bordered={false} color="blue">
+                {" "}
+                {catid}{" "}
+              </Tag>
+            </h1>
+            <Column {...SoldConfig} />
+          </div>
+
+        </div>
+        <div>
+
+          <div>
+            <h1>
+              {t("lowestStockStat")}
+              {t("inCategory")}
+              <Tag bordered={false} color="blue">
+                {" "}
+                {catid}
+              </Tag>
+            </h1>
+            <Bullet {...Stockconfig} />;
+          </div>
+        </div>
+      </Carousel>
+
+    </div>
   );
 }
 

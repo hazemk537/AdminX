@@ -6,7 +6,6 @@ import Spinner from "../components/Spinner";
 
 import { useTranslation } from "react-i18next";
 require("polyfill-object.fromentries");
-let toMemo;
 
 function handleData(product) {
   return {
@@ -22,15 +21,8 @@ function handleData(product) {
 
 const ProductTable = () => {
   const { t } = useTranslation();
-  const [productsWithSold, setproductsWithSold] = useState();
-  let translationReady;
-  function handleTranslation(obj) {
-    return Object.fromEntries(
-      Object.entries(obj).map(([key, value]) => {
-        return [t(key), value];
-      })
-    );
-  }
+  const [productsWithSold, setproductsWithSold] = useState([]);
+ 
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -44,16 +36,11 @@ const ProductTable = () => {
     })
       .then((res) => res.json())
       .then((jsonData) => {
-        toMemo = jsonData.map(handleData);
+        setproductsWithSold(jsonData.map(handleData))
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        translationReady = toMemo.map(handleTranslation);
-        localStorage.setItem(
-          "productsWithSold",
-          JSON.stringify(translationReady)
-        );
-        setproductsWithSold(translationReady);
-        console.log(translationReady)
+        // #todo must use another use effect to set local storage !!
+      
       })
       .catch((error) => {
         const errorResponse = new Response(
@@ -65,6 +52,14 @@ const ProductTable = () => {
         throw errorResponse;
       });
   }, []);
+
+
+  useEffect(()=>{
+    localStorage.setItem(
+      "productsWithSold",
+      JSON.stringify(productsWithSold)
+    );
+  },[productsWithSold])
 
   // todo try to make the array not changes donot work
   // const memoizationHack=useMemo((()=>returnFakeState(productsWithSold),[productsWithSold]))
@@ -195,99 +190,99 @@ const ProductTable = () => {
   const columns = [
     {
       title: t("id"),
-      dataIndex: t("id"),
-      key: t("id"),
+     dataIndex: "id",
+      key: "id",
       width: "10%",
-      ...getColumnSearchProps(t("id")),
+      ...getColumnSearchProps("id"),
     },
     {
       title: t("title"),
-      dataIndex: t("title"),
-      key: t("title"),
+      dataIndex: "title",
+      key: "title",
       width: "20%",
-      ...getColumnSearchProps(t("title")),
+      ...getColumnSearchProps("title"),
     },
 
     {
       title: t("price"),
-      dataIndex: t("price"),
-      key: t("price"),
+      dataIndex: "price",
+      key: "price",
       width: "10%",
-      ...getColumnSearchProps(t("price")),
+      ...getColumnSearchProps("price"),
     },
     {
       title: t("rating"), /// statistics
-      dataIndex: t("rating"),
-      key: t("rating"),
+      dataIndex: "rating",
+      key: "rating",
       width: "10%",
-      ...getColumnSearchProps(t("rating")),
+      ...getColumnSearchProps("rating"),
     },
     {
       title: t("stock"), //stock low levels
-      dataIndex: t("stock"),
-      key: t("stock"),
+      dataIndex: "stock",
+      key: "stock",
       width: "10%",
-      ...getColumnSearchProps(t("stock")),
+      ...getColumnSearchProps("stock"),
     },
     {
       title: t("sold"),
-      dataIndex: t("sold"),
-      key: t("sold"),
+      dataIndex: "sold",
+      key: "sold",
       width: "10%",
-      ...getColumnSearchProps(t("sold")),
+      ...getColumnSearchProps("sold"),
     },
     {
       title: t("brand"),
-      dataIndex: t("brand"),
-      key: t("brand"),
+      dataIndex: "brand",
+      key: "brand",
       width: "15%",
-      ...getColumnSearchProps(t("brand")),
+      ...getColumnSearchProps("brand"),
     },
     {
       title: t("threshold"),
-      dataIndex: t("threshold"),
-      key: t("threshold"),
+      dataIndex: "threshold",
+      key: "threshold",
       width: "15%",
-      ...getColumnSearchProps(t("threshold")),
+      ...getColumnSearchProps("threshold"),
     },
     {
       title: t("max"),
-      dataIndex: t("max"),
-      key: t("max"),
+     dataIndex: "max",
+      key: "max",
       width: "15%",
-      ...getColumnSearchProps(t("max")),
+      ...getColumnSearchProps("max"),
     },
     {
       title: t("target"),
-      dataIndex: t("target"),
-      key: t("target"),
+      dataIndex: "target",
+      key: "target",
       width: "15%",
-      ...getColumnSearchProps(t("target")),
+      ...getColumnSearchProps("target"),
     },
 
     {
       title: t("category"), //statistic upon categories
-      dataIndex: t("category"),
-      key: t("category"),
+      dataIndex: "category",
+      key: "category",
       width: "15%",
-      ...getColumnSearchProps(t("category")),
+      ...getColumnSearchProps("category"),
     },
     {
       title: t("action"),
       dataIndex: "",
-      key: t("action"),
+      key: "action",
       render: (_, record) => (
         <>
           <Button
             onClick={() => {
-              let id = t("id");
+              let id = "id";
               deleteAction(record[id]);
             }}
           >
-            {t("delete")}
+            {"delete"}
           </Button>
-        </>
-      ), // TODO Add and delete api using forms
+        </>)
+      // TODO Add and delete api using forms
     },
   ];
   //products of solds is array so should memoized to enabe compare by value
