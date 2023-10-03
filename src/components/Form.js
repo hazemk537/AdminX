@@ -10,16 +10,18 @@ export const Form = (props) => {
     // console.log(objectFromArray)
     if (key === "age" || key === "email" || key === "name") {
       return (
-        <label>
-          {key}:
+        <>
+        <label htmlFor={`${objectFromArray[key] + objectFromArray.email}`}>
+          {key.toUpperCase()}:
+          </label>
           <input
             ref={key === "age" ? ageRef : key === "email" ? emailRef : nameRef}
             key={objectFromArray[key] + objectFromArray.email}
-            type={key === "age" ? "number" : "text"}
+            type={key === "age" ? "number" :key==="email"?"email": "text"}
             disabled={key === "_id" ? true : false}
             defaultValue={props.type === "new" ? " " : objectFromArray[key]}
           />
-        </label>
+          </>
       );
       //note:value without onchhange will make read only form
       //note: refs canot be a string ref={"ageRef"},make it dynamic #todo1

@@ -13,8 +13,11 @@
 }
 .modal {
     background-color: rgb(241, 240, 250);
-    border-radius:2vh;
+    border-radius:1.5vh;
     width:50%;
+    position:absolute;
+    color:rgba(0, 0, 0, 0.565)
+
    
 
 
@@ -23,8 +26,8 @@
 .modal svg{
 
     position: absolute;
-    top:0;
-    left:0;
+    top:0.5vw;
+    left:0.5vw;
 }
 
 .modal header{
@@ -34,20 +37,83 @@
 
 
 }
+
+.modal input{
+
+    margin-bottom: 10%;
+    border-radius: 3;
+    background-color:rgb(254, 252, 255);
+}
+
+
+.modal label{
+
+    width:70%;
+    display: flex;
+    
+
+}
+
 .modal form{
     display:flex;
     flex-direction: column;
     align-items:center;
     align-content: flex-start;
+    
 
 
     
 }
 
+
+.modal button{
+    margin-bottom: 6%;
+    background-color:  rgb(192, 187, 232);
+    width: 20%; 
+    border-radius: 14%;
+}
+button{
+ 
+    background-color:  rgb(192, 187, 232);
+    border-radius: 14%;
+}
+
 .modal  input{
     flex-basis:70%;
+    border-radius:5%;
 
-display:block;
+
+
+}
+
+button:hover{
+
+
+     transform:scalex(110%) translateY(20%);
+
+   
+
+
+
+}
+
+.home svg:hover{
+
+
+    transform: translateY(20%);
+    /* transform:rotatex(30deg); */
+
+}
+
+
+span:hover{
+
+
+    transform:scalex(105%) ;
+    color:aqua;
+
+  
+
 
 
 }

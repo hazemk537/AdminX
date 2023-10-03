@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styles from'../custom.module.css'
 import {
   InfoCircleOutlined,
   StarOutlined,
@@ -26,7 +27,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="landing-page">
+    <div className={`landing-page ${styles.home}`}>
       <header className="header">
         <span data-text={t("about")}>
           <InfoCircleOutlined
@@ -53,7 +54,7 @@ export default function HomePage() {
       </header>
       <div className="landing-main">
         <h1 className="H1">{t("greeting")}</h1>
-        <button className="button" onClick={handleClick}>
+        <button className="button_homepage" onClick={handleClick}>
           {t("gotoButton")}
         </button>
       </div>

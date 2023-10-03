@@ -2,7 +2,7 @@ import styles from "../custom.module.css";
 export default function Modal(props) {
   return (
 <div >
-       <div className={styles.backdrop}>
+       <div    className={styles.backdrop}>
        <section className={styles.modal}>
         <header>
           <svg
@@ -22,9 +22,7 @@ export default function Modal(props) {
 
         <footer>
           
-          <button onClick={props.toggleDisplayHandler} type="">
-            {props.CancelText}
-          </button>
+         
         </footer>
       </section>
       </div>
