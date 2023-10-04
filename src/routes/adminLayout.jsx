@@ -1,19 +1,17 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Button, Layout, Menu, Switch, theme } from "antd";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Button, Layout, Menu, Switch } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from '../custom.module.css'
 const { Header, Content, Sider } = Layout;
 
 const AdminLayout = () => {
-  let location = useLocation();
 
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   // eslint-disable-next-line no-unused-vars
   const [lng, setLng] = useState("en")  ;
   const [rtl, setRtl] = useState(0);
-  const lastPart = location.pathname.split("/").pop();
 
   //remebmber lang from last session
   useLayoutEffect(() => {
